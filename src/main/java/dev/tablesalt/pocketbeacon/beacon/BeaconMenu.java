@@ -1,41 +1,21 @@
 package dev.tablesalt.pocketbeacon.beacon;
 
-import dev.tablesalt.pocketbeacon.BeaconPlugin;
 import dev.tablesalt.pocketbeacon.PlayerCache;
-import lombok.Getter;
-import org.bukkit.Material;
-import org.bukkit.entity.Boss;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryAction;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
-import org.mineacademy.fo.ChatUtil;
-import org.mineacademy.fo.Common;
-import org.mineacademy.fo.Valid;
-import org.mineacademy.fo.conversation.SimpleConversation;
+import org.mineacademy.fo.*;
 import org.mineacademy.fo.menu.Menu;
-import org.mineacademy.fo.menu.MenuQuantitable;
-import org.mineacademy.fo.menu.button.ButtonConversation;
 import org.mineacademy.fo.menu.button.ButtonMenu;
 import org.mineacademy.fo.menu.model.ItemCreator;
 import org.mineacademy.fo.menu.model.MenuClickLocation;
-import org.mineacademy.fo.menu.model.MenuQuantity;
+import org.mineacademy.fo.model.SimpleSound;
 import org.mineacademy.fo.remain.CompChatColor;
 import org.mineacademy.fo.remain.CompMaterial;
-
-import java.awt.*;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.PrimitiveIterator;
-import java.util.UUID;
 
 public class BeaconMenu extends Menu {
 
@@ -200,56 +180,73 @@ public class BeaconMenu extends Menu {
 		protected void onMenuClick(Player player, int slot, InventoryAction action, ClickType click, ItemStack cursor, ItemStack clicked, boolean cancelled) {
 
 			PlayerCache cache = PlayerCache.getCache(player);
-
-			//todo fix right click dupe
-
+			
 
 			if (slot == getCenterSlot() && cursor != null && BeaconFuel.isFuel(cursor)) {
 				cache.setBeaconFuel(new BeaconFuel(cursor));
-				isTicking = true;
-				startTick(player, this);
+				cache.getBeaconFuel().setBurning(true);
+				startTick(player);
 			}
 
 			if (slot == getCenterSlot() && clicked != null && BeaconFuel.isFuel(clicked)) {
-				isTicking = false;
-				cache.setBeaconFuel(new BeaconFuel(this.getItemAt(getCenterSlot())));
-				restartMenu();
-
+				cache.getBeaconFuel().setBurning(false);
 			}
 
 		}
 
-		public void startTick(Player player, FuelMenu menu) {
+		public void startTick(Player player) {
 			PlayerCache cache = PlayerCache.getCache(player);
 
 			//todo how fast the material burns
-			int timerStrength = 40;
 
-			Common.runTimer(20, timerStrength, new BukkitRunnable() {
+
+			Common.runTimer(10, 5, new BukkitRunnable() {
 				final BeaconFuel currentFuel = PlayerCache.getCache(player).getBeaconFuel();
+				final int burnTime = BeaconFuel.getBurnTime(currentFuel.getFuel());
+
+
 				int amountLeft = cache.getBeaconFuel().getFuel().getAmount();
+				int timer = 0;
 
 				@Override
 				public void run() {
 
-					amountLeft--;
+					//checks when an item should be burned
+					if (timer >= burnTime) {
+						amountLeft--;
+						timer = 0;
+						new SimpleSound(Sound.BLOCK_BLASTFURNACE_FIRE_CRACKLE, 5, 1).play(player);
+						return;
+					}
 					currentFuel.setAmount(amountLeft);
 
-					if (menu.isViewing(player)) {
-						menu.restartMenu();
+					//handles logic when player is viewing the ticking inventory
+					if (isViewing(player)) {
+						ItemStack cursorItem = getViewer().getItemOnCursor();
+
+						if (BeaconFuel.isFuel(cursorItem)) {
+							cancel();
+							return;
+						}
+						restartMenu();
 					}
 
-					if (currentFuel.isEmpty() || !isTicking) {
-						Common.broadcast("Stopping");
-						//menu.setItem(getCenterSlot(), null);
+					//stops the fuel ticking when the fuel is empty
+					if (currentFuel.isEmpty() || !cache.getBeaconFuel().isBurning()) {
+						setItem(getCenterSlot(), null);
 						cancel();
 						return;
 					}
+					timer++;
+				}
 
-
-					Common.broadcast(amountLeft + "");
+				public void cancel() {
+					new SimpleSound(Sound.BLOCK_BEACON_DEACTIVATE, 10, 1).play(player);
+					cache.getBeaconFuel().setBurning(false);
+					super.cancel();
 
 				}
+
 			});
 
 

@@ -21,6 +21,10 @@ public class BeaconFuel {
 	@Setter
 	private ItemStack fuel;
 
+	@Getter
+	@Setter
+	private boolean isBurning = false;
+
 	public BeaconFuel(ItemStack fuel) {
 		this.fuel = fuel;
 
@@ -51,6 +55,23 @@ public class BeaconFuel {
 				return true;
 			default:
 				return false;
+		}
+	}
+
+	public static int getBurnTime(ItemStack itemStack) {
+		switch (itemStack.getType()) {
+			case COAL:
+				return 50;
+			case DIAMOND:
+				return 70;
+			case EMERALD:
+				return 30;
+			case IRON_INGOT:
+				return 45;
+			case GOLD_INGOT:
+				return 40;
+			default:
+				return 20;
 		}
 	}
 

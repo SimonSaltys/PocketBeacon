@@ -24,8 +24,8 @@ public class BeaconTask extends BukkitRunnable {
 
 				PlayerCache cache = PlayerCache.getCache(player);
 
+				//todo error here
 				if (cache.getBeaconFuel() == null || !cache.getBeaconFuel().isBurning()) {
-					PocketBeacons.updateEffect(player, BeaconState.NO_EFFECT);
 					return;
 				}
 

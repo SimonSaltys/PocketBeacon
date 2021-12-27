@@ -19,45 +19,41 @@ import org.mineacademy.fo.plugin.SimplePlugin;
 public final class BeaconPlugin extends SimplePlugin {
 
 
-    /**
-     * Automatically perform login ONCE when the plugin starts.
-     */
-    @Override
-    protected void onPluginStart() {
-    }
+	/**
+	 * Automatically perform login ONCE when the plugin starts.
+	 */
+	@Override
+	protected void onPluginStart() {
+	}
 
-    /**
-     * Automatically perform login when the plugin starts and each time it is reloaded.
-     */
-    @Override
-    protected void onReloadablesStart() {
-
-        // You can check for necessary plugins and disable loading if they are missing
-        Valid.checkBoolean(HookManager.isVaultLoaded(), "You need to install Vault so that we can work with packets, offline player data, prefixes and groups.");
+	/**
+	 * Automatically perform login when the plugin starts and each time it is reloaded.
+	 */
+	@Override
+	protected void onReloadablesStart() {
 
 
-        registerCommands("pocketbeacon|beacon|pb", BeaconCommandGroup.getInstance());
-        registerEvents(BeaconListener.getInstance());
-        getServer().addRecipe(PocketBeacons.getRecipe());
+		registerCommands("pocketbeacon|beacon|pb", BeaconCommandGroup.getInstance());
+		registerEvents(BeaconListener.getInstance());
 
-        BeaconTask beaconTask = new BeaconTask();
-        beaconTask.runTaskTimer(this, 0, 20);
+		BeaconTask beaconTask = new BeaconTask();
+		beaconTask.runTaskTimer(this, 0, 1);
 
 
-    }
+	}
 
-    /* ------------------------------------------------------------------------------- */
-    /* Static */
-    /* ------------------------------------------------------------------------------- */
+	/* ------------------------------------------------------------------------------- */
+	/* Static */
+	/* ------------------------------------------------------------------------------- */
 
-    /**
-     * Return the instance of this plugin, which simply refers to a static
-     * field already created for you in SimplePlugin but casts it to your
-     * specific plugin instance for your convenience.
-     *
-     * @return instance of the main plugin
-     */
-    public static BeaconPlugin getInstance() {
-        return (BeaconPlugin) SimplePlugin.getInstance();
-    }
+	/**
+	 * Return the instance of this plugin, which simply refers to a static
+	 * field already created for you in SimplePlugin but casts it to your
+	 * specific plugin instance for your convenience.
+	 *
+	 * @return instance of the main plugin
+	 */
+	public static BeaconPlugin getInstance() {
+		return (BeaconPlugin) SimplePlugin.getInstance();
+	}
 }

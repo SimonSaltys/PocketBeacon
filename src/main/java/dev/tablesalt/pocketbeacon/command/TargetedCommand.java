@@ -6,26 +6,24 @@ import org.mineacademy.fo.command.SimpleSubCommand;
 
 public abstract class TargetedCommand extends SimpleSubCommand {
 
-    public TargetedCommand(SimpleCommandGroup parent, String sublabel) {
-        super(parent, sublabel);
+	public TargetedCommand(SimpleCommandGroup parent, String sublabel) {
+		super(parent, sublabel);
 
-        setMinArguments(1);
-        setUsage("<target>");
+		setMinArguments(1);
+		setUsage("<target>");
 
-    }
+	}
 
-    @Override
-    protected final void onCommand() {
-        checkConsole();
+	@Override
+	protected final void onCommand() {
+		final Player target = findPlayer(args[0], "&cUnable to find player " + args[0]);
 
-        final Player target = findPlayer(args[0], "&cUnable to find player " + args[0]);
-
-        onCommandFor(target);
+		onCommandFor(target);
 
 
-    }
+	}
 
-    protected abstract void onCommandFor(Player target);
+	protected abstract void onCommandFor(Player target);
 
 
 }

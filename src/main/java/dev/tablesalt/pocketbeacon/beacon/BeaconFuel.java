@@ -10,6 +10,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 import org.mineacademy.fo.Common;
 import org.mineacademy.fo.Valid;
+import org.mineacademy.fo.menu.model.ItemCreator;
+import org.mineacademy.fo.remain.CompMaterial;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -27,7 +29,6 @@ public class BeaconFuel {
 
 	public BeaconFuel(ItemStack fuel) {
 		this.fuel = fuel;
-
 	}
 
 

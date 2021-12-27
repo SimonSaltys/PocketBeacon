@@ -67,6 +67,10 @@ public class BeaconMenu extends Menu {
 
 	@Override
 	public ItemStack getItemAt(int slot) {
+
+		PlayerCache cache = PlayerCache.getCache(getViewer());
+
+
 		//effect group one
 		if (slot == 2)
 			return clearButton.getItem();
@@ -117,12 +121,10 @@ public class BeaconMenu extends Menu {
 
 
 	private final class FuelMenu extends Menu {
-		boolean isTicking = false;
 
 
 		FuelMenu() {
 			super(BeaconMenu.this);
-
 			setTitle(ChatUtil.generateGradient("Pocket Beacon Fuel", CompChatColor.AQUA, CompChatColor.DARK_BLUE));
 			setSize(9);
 		}
@@ -154,9 +156,9 @@ public class BeaconMenu extends Menu {
 			};
 		}
 
+
 		@Override
 		protected boolean isActionAllowed(MenuClickLocation location, int slot, ItemStack clicked, ItemStack cursor) {
-
 
 			if (location.equals(MenuClickLocation.MENU)) {
 				return slot == getCenterSlot();
@@ -165,34 +167,23 @@ public class BeaconMenu extends Menu {
 			return location == MenuClickLocation.PLAYER_INVENTORY && (clicked == null || BeaconFuel.isFuel(clicked));
 		}
 
+
 		@Override
 		protected void onMenuClose(Player player, Inventory inventory) {
 			super.onMenuClose(player, inventory);
-
 			PlayerCache cache = PlayerCache.getCache(player);
 
 			if (inventory.getItem(getCenterSlot()) == null) {
 				cache.setBeaconFuel(null);
-			}
-		}
-
-		@Override
-		protected void onMenuClick(Player player, int slot, InventoryAction action, ClickType click, ItemStack cursor, ItemStack clicked, boolean cancelled) {
-
-			PlayerCache cache = PlayerCache.getCache(player);
-
-
-			if (slot == getCenterSlot() && cursor != null && BeaconFuel.isFuel(cursor)) {
-				cache.setBeaconFuel(new BeaconFuel(cursor));
+			} else {
+				cache.setBeaconFuel(new BeaconFuel(inventory.getItem(getCenterSlot())));
 				cache.getBeaconFuel().setBurning(true);
 				startTick(player);
 			}
 
-			if (slot == getCenterSlot() && clicked != null && BeaconFuel.isFuel(clicked)) {
-				cache.getBeaconFuel().setBurning(false);
-			}
 
 		}
+
 
 		public void startTick(Player player) {
 			PlayerCache cache = PlayerCache.getCache(player);
@@ -208,7 +199,6 @@ public class BeaconMenu extends Menu {
 
 				@Override
 				public void run() {
-
 
 					if (cache.getCurrentState().equals(BeaconState.NO_EFFECT) || !PocketBeacons.isHolding(player)) {
 						return;
@@ -238,6 +228,7 @@ public class BeaconMenu extends Menu {
 					//stops the fuel ticking when the fuel is empty
 					if (currentFuel.isEmpty() || !cache.getBeaconFuel().isBurning()) {
 						setItem(getCenterSlot(), null);
+						new SimpleSound(Sound.BLOCK_BEACON_DEACTIVATE, 10, 1).play(player);
 						cancel();
 						return;
 					}
@@ -245,7 +236,6 @@ public class BeaconMenu extends Menu {
 				}
 
 				public void cancel() {
-					new SimpleSound(Sound.BLOCK_BEACON_DEACTIVATE, 10, 1).play(player);
 					cache.getBeaconFuel().setBurning(false);
 					super.cancel();
 
@@ -258,6 +248,8 @@ public class BeaconMenu extends Menu {
 
 
 	}
+
 }
+
 
 

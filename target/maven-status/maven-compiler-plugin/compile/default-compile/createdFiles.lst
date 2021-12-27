@@ -1,0 +1,17 @@
+dev/tablesalt/pocketbeacon/beacon/PocketBeacons.class
+dev/tablesalt/pocketbeacon/beacon/BeaconState.class
+dev/tablesalt/pocketbeacon/beacon/BeaconButton.class
+dev/tablesalt/pocketbeacon/beacon/BeaconMenu.class
+dev/tablesalt/pocketbeacon/beacon/BeaconMenu$FuelMenu.class
+dev/tablesalt/pocketbeacon/beacon/BeaconState$1.class
+dev/tablesalt/pocketbeacon/listener/BeaconListener.class
+dev/tablesalt/pocketbeacon/beacon/BeaconFuel$1.class
+dev/tablesalt/pocketbeacon/PlayerCache.class
+dev/tablesalt/pocketbeacon/command/BeaconCommandGroup.class
+dev/tablesalt/pocketbeacon/beacon/BeaconFuel.class
+dev/tablesalt/pocketbeacon/task/BeaconTask$1.class
+dev/tablesalt/pocketbeacon/command/TargetedCommand.class
+dev/tablesalt/pocketbeacon/BeaconPlugin.class
+dev/tablesalt/pocketbeacon/command/GiveBeaconCommand.class
+dev/tablesalt/pocketbeacon/task/BeaconTask.class
+dev/tablesalt/pocketbeacon/util/BeaconUtil.class

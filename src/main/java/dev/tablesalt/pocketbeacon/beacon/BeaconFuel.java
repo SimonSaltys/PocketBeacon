@@ -11,76 +11,48 @@ import org.bukkit.scheduler.BukkitTask;
 import org.mineacademy.fo.Common;
 import org.mineacademy.fo.Valid;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.UUID;
 
 public class BeaconFuel {
 
-    @Getter
-    @Setter
-    private ItemStack fuel;
+	@Getter
+	@Setter
+	private ItemStack fuel;
 
-    public BeaconFuel(ItemStack fuel) {
-        this.fuel = fuel;
-    }
+	public BeaconFuel(ItemStack fuel) {
+		this.fuel = fuel;
 
-    public boolean isEmpty() {
-        return fuel.getAmount() <= 1;
-    }
-
-    public void setAmount(int amount) {
-        fuel.setAmount(amount);
-    }
-
-    //-----------------------------------//-----------------------------------//
-    //                                  STATIC
-    //-----------------------------------//-----------------------------------//
-
-    private static HashMap<UUID, BukkitTask> fuelTick = new HashMap<>();
-
-    public static void startTick(Player player) {
-
-        PlayerCache cache = PlayerCache.getCache(player);
-
-        if (cache.getBeaconFuel().isEmpty()) return;
-
-        //todo how fast the material burns
-        int timerStrength = 40;
-
-        Valid.checkBoolean(!fuelTick.containsKey(player.getUniqueId()));
-        fuelTick.put(player.getUniqueId(), Common.runTimer(0, timerStrength, () -> {
-
-            int amountLeft = cache.getBeaconFuel().getFuel().getAmount();
-            amountLeft--;
-
-            if (amountLeft <= 1) {
-                fuelTick.get(player.getUniqueId()).cancel();
-                return;
-            }
-            cache.getBeaconFuel().setAmount(amountLeft);
-        }));
+	}
 
 
-    }
+	public boolean isEmpty() {
+		return fuel.getAmount() < 1;
+	}
 
-    public static void stopTick() {
+	public void setAmount(int amount) {
+		fuel.setAmount(amount);
+	}
 
-    }
+	//-----------------------------------//-----------------------------------//
+	//                                  STATIC
+	//-----------------------------------//-----------------------------------//
 
 
-    public static boolean isFuel(ItemStack itemStack) {
+	public static boolean isFuel(ItemStack itemStack) {
 
-        switch (itemStack.getType()) {
-            case COAL:
-            case DIAMOND:
-            case EMERALD:
-            case IRON_INGOT:
-            case GOLD_INGOT:
-                return true;
-            default:
-                return false;
-        }
-    }
+		switch (itemStack.getType()) {
+			case COAL:
+			case DIAMOND:
+			case EMERALD:
+			case IRON_INGOT:
+			case GOLD_INGOT:
+				return true;
+			default:
+				return false;
+		}
+	}
 
 
 }

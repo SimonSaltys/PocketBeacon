@@ -64,5 +64,10 @@ public class PocketBeacons {
 		cache.setCurrentState(beaconState);
 	}
 
+	public static boolean isHolding(Player player) {
+		return player.getInventory().getItemInOffHand().isSimilar(getBeaconItem()) ||
+				player.getInventory().getItemInMainHand().isSimilar(getBeaconItem());
+	}
+
 
 }

@@ -180,7 +180,7 @@ public class BeaconMenu extends Menu {
 		protected void onMenuClick(Player player, int slot, InventoryAction action, ClickType click, ItemStack cursor, ItemStack clicked, boolean cancelled) {
 
 			PlayerCache cache = PlayerCache.getCache(player);
-			
+
 
 			if (slot == getCenterSlot() && cursor != null && BeaconFuel.isFuel(cursor)) {
 				cache.setBeaconFuel(new BeaconFuel(cursor));
@@ -197,8 +197,6 @@ public class BeaconMenu extends Menu {
 		public void startTick(Player player) {
 			PlayerCache cache = PlayerCache.getCache(player);
 
-			//todo how fast the material burns
-
 
 			Common.runTimer(10, 5, new BukkitRunnable() {
 				final BeaconFuel currentFuel = PlayerCache.getCache(player).getBeaconFuel();
@@ -211,6 +209,11 @@ public class BeaconMenu extends Menu {
 				@Override
 				public void run() {
 
+
+					if (cache.getCurrentState().equals(BeaconState.NO_EFFECT) || !PocketBeacons.isHolding(player)) {
+						return;
+					}
+
 					//checks when an item should be burned
 					if (timer >= burnTime) {
 						amountLeft--;
@@ -221,6 +224,7 @@ public class BeaconMenu extends Menu {
 					currentFuel.setAmount(amountLeft);
 
 					//handles logic when player is viewing the ticking inventory
+					//todo right click to insert items does not work
 					if (isViewing(player)) {
 						ItemStack cursorItem = getViewer().getItemOnCursor();
 

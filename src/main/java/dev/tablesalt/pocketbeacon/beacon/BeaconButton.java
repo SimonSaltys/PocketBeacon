@@ -53,7 +53,7 @@ public class BeaconButton extends Button {
 			new SimpleSound(Sound.BLOCK_CALCITE_BREAK, 5, MathUtil.range(2, 0, 1)).play(player);
 			return;
 		}
-
+		
 		PocketBeacons.updateEffect(player, beaconState);
 
 		new SimpleSound(Sound.BLOCK_CHAIN_BREAK, 5, MathUtil.range(7, 3, 7)).play(player);

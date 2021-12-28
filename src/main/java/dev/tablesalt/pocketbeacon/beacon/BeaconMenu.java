@@ -287,80 +287,74 @@ public class BeaconMenu extends Menu {
 
 				cache.setBeaconFuel(new BeaconFuel(inventory.getItem(getCenterSlot())));
 
-				if (!cache.getBeaconFuel().isBurning()) {
+				if (!cache.getBeaconFuel().isBurning() && !cache.getBeaconFuel().isEmpty()) {
 					cache.getBeaconFuel().setBurning(true);
-					startTick(player);
+
+
+					//todo error somewhere not decrementing fuel items
+					BeaconTaskManager.getInstance().start(player, new BukkitRunnable() {
+						final BeaconFuel currentFuel = PlayerCache.getCache(player).getBeaconFuel();
+						final int burnTime = BeaconFuel.getBurnTime(currentFuel.getFuel());
+
+						int amountLeft = cache.getBeaconFuel().getFuel().getAmount();
+						int timer = 0;
+
+						@Override
+						public void run() {
+
+							if (cache.getCurrentState().equals(BeaconState.NO_EFFECT) || !PocketBeacons.isHolding(player)) {
+								return;
+							}
+
+							//checks when an item should be burned
+							if (timer >= burnTime) {
+								amountLeft--;
+								currentFuel.setAmount(amountLeft);
+								timer = 0;
+
+								new SimpleSound(Sound.BLOCK_BLASTFURNACE_FIRE_CRACKLE, 5, 1).play(player);
+								return;
+							}
+
+
+							//handles logic when player is viewing the ticking inventory
+							if (isViewing(player)) {
+								ItemStack cursorItem = getViewer().getItemOnCursor();
+
+								if (BeaconFuel.isFuel(cursorItem)) {
+									cancel();
+									return;
+								}
+								restartMenu();
+							}
+
+							//stops the fuel ticking when the fuel is empty
+							if (currentFuel.isEmpty() || (cache.getBeaconFuel() != null && !cache.getBeaconFuel().isBurning())) {
+								setItem(getCenterSlot(), null);
+								new SimpleSound(Sound.BLOCK_BEACON_DEACTIVATE, 10, 1).play(player);
+								cancel();
+								return;
+							}
+							timer++;
+
+							Common.broadcast(timer + ": " + amountLeft);
+
+						}
+
+						public void cancel() {
+							cache.getBeaconFuel().setBurning(false);
+							BeaconTaskManager.getInstance().stop(player);
+							cache.setCurrentState(BeaconState.NO_EFFECT);
+							super.cancel();
+
+						}
+
+					});
 				}
 			}
 		}
-
-
-		public void startTick(Player player) {
-			PlayerCache cache = PlayerCache.getCache(player);
-
-
-			Common.runTimer(10, 5, new BukkitRunnable() {
-				final BeaconFuel currentFuel = PlayerCache.getCache(player).getBeaconFuel();
-				final int burnTime = BeaconFuel.getBurnTime(currentFuel.getFuel());
-
-				int amountLeft = cache.getBeaconFuel().getFuel().getAmount();
-				int timer = 0;
-
-				@Override
-				public void run() {
-
-					if (cache.getCurrentState().equals(BeaconState.NO_EFFECT) || !PocketBeacons.isHolding(player)) {
-						return;
-					}
-
-					//checks when an item should be burned
-					if (timer >= burnTime) {
-						amountLeft--;
-						timer = 0;
-						new SimpleSound(Sound.BLOCK_BLASTFURNACE_FIRE_CRACKLE, 5, 1).play(player);
-						return;
-					}
-					currentFuel.setAmount(amountLeft);
-
-					//handles logic when player is viewing the ticking inventory
-					//todo right click to insert items does not work
-					if (isViewing(player)) {
-						ItemStack cursorItem = getViewer().getItemOnCursor();
-
-						if (BeaconFuel.isFuel(cursorItem)) {
-							cancel();
-							return;
-						}
-						restartMenu();
-					}
-
-					//stops the fuel ticking when the fuel is empty
-					if (currentFuel.isEmpty() || (cache.getBeaconFuel() != null && !cache.getBeaconFuel().isBurning())) {
-						setItem(getCenterSlot(), null);
-						new SimpleSound(Sound.BLOCK_BEACON_DEACTIVATE, 10, 1).play(player);
-						cancel();
-						return;
-					}
-					timer++;
-
-					Common.broadcast(timer + ": " + amountLeft);
-
-				}
-
-				public void cancel() {
-					cache.getBeaconFuel().setBurning(false);
-					cache.setCurrentState(BeaconState.NO_EFFECT);
-					super.cancel();
-
-				}
-
-			});
-
-
-		}
-
-
 	}
+
 
 }
 

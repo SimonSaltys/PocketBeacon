@@ -37,7 +37,7 @@ public final class BeaconPlugin extends SimplePlugin {
 		registerEvents(BeaconListener.getInstance());
 
 		BeaconTask beaconTask = new BeaconTask();
-		beaconTask.runTaskTimer(this, 0, 1);
+		beaconTask.runTaskTimer(this, 0, 5);
 
 
 	}

@@ -48,6 +48,28 @@ public class BeaconTask extends BukkitRunnable {
 					case SLOW_FALLING:
 						PocketBeacons.updateEffect(player, BeaconState.SLOW_FALLING);
 						break;
+					case LEVITATION:
+						PocketBeacons.updateEffect(player, BeaconState.LEVITATION);
+						break;
+					case NIGHT_VISION:
+						PocketBeacons.updateEffect(player, BeaconState.NIGHT_VISION);
+						break;
+					case FIRE_RESISTANCE:
+						PocketBeacons.updateEffect(player, BeaconState.FIRE_RESISTANCE);
+						break;
+					case SATURATION:
+						PocketBeacons.updateEffect(player, BeaconState.SATURATION);
+						break;
+					case STRENGTH:
+						PocketBeacons.updateEffect(player, BeaconState.STRENGTH);
+						break;
+					case FAST_SWIMMING:
+						PocketBeacons.updateEffect(player, BeaconState.FAST_SWIMMING);
+						break;
+					case WATER_BREATHING:
+						PocketBeacons.updateEffect(player, BeaconState.WATER_BREATHING);
+						break;
+
 				}
 			}
 		}

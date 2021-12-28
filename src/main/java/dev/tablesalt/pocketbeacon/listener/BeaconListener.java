@@ -23,38 +23,37 @@ import org.mineacademy.fo.Common;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BeaconListener implements Listener {
 
-    @Getter
-    private static final BeaconListener instance = new BeaconListener();
+	@Getter
+	private static final BeaconListener instance = new BeaconListener();
 
-    @EventHandler
-    public void onItemClick(PlayerInteractEvent event) {
-
-
-        Player player = event.getPlayer();
-
-        if ((event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) &&
-                (player.getInventory().getItemInMainHand().isSimilar(PocketBeacons.getBeaconItem()) ||
-                        player.getInventory().getItemInOffHand().isSimilar(PocketBeacons.getBeaconItem()))) {
-
-            new BeaconMenu().displayTo(player);
-        }
-
-    }
+	@EventHandler
+	public void onItemClick(PlayerInteractEvent event) {
 
 
-    @EventHandler
-    public void onBeaconPlace(BlockPlaceEvent event) {
-        ItemStack beacon = PocketBeacons.getBeaconItem();
+		Player player = event.getPlayer();
 
-        if (event.getItemInHand().isSimilar(beacon)) {
-            event.setCancelled(true);
-        }
-    }
+		if ((event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) &&
+				(player.getInventory().getItemInMainHand().isSimilar(PocketBeacons.getBeaconItem()))) {
 
-    @EventHandler
-    public void onLeave(PlayerQuitEvent event) {
-        event.getPlayer().updateInventory();
-    }
+			new BeaconMenu().displayTo(player);
+		}
+
+	}
+
+
+	@EventHandler
+	public void onBeaconPlace(BlockPlaceEvent event) {
+		ItemStack beacon = PocketBeacons.getBeaconItem();
+
+		if (event.getItemInHand().isSimilar(beacon)) {
+			event.setCancelled(true);
+		}
+	}
+
+	@EventHandler
+	public void onLeave(PlayerQuitEvent event) {
+		event.getPlayer().updateInventory();
+	}
 
 
 }

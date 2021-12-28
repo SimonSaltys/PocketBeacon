@@ -45,6 +45,22 @@ public class BeaconFuel {
 	//-----------------------------------//-----------------------------------//
 
 
+	public static int getTier(ItemStack itemStack) {
+		
+		switch (itemStack.getType()) {
+			case COAL:
+				return 1;
+			case DIAMOND:
+			case EMERALD:
+				return 3;
+			case IRON_INGOT:
+			case GOLD_INGOT:
+				return 2;
+		}
+
+		return 0;
+	}
+
 	public static boolean isFuel(ItemStack itemStack) {
 
 		switch (itemStack.getType()) {

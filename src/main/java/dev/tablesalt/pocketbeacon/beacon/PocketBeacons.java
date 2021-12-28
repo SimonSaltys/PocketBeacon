@@ -59,7 +59,7 @@ public class PocketBeacons {
 		}
 
 		if (nextEffect != null) {
-			player.addPotionEffect(new PotionEffect(nextEffect, 20 * 2, 1));
+			player.addPotionEffect(new PotionEffect(nextEffect, 20 * 4, 1));
 		}
 		cache.setCurrentState(beaconState);
 	}

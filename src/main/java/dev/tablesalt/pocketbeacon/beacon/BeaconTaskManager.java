@@ -17,39 +17,33 @@ import java.util.UUID;
 
 public class BeaconTaskManager {
 
-	@Getter
-	private final static BeaconTaskManager instance = new BeaconTaskManager();
+    @Getter
+    private final static BeaconTaskManager instance = new BeaconTaskManager();
 
-	@Getter
-	private HashMap<UUID, BukkitRunnable> runnableMap = new HashMap<>();
-
-
-	private BeaconTaskManager() {
-	}
-
-	public void start(Player player, BukkitRunnable runnable) {
-		if (!runnableMap.containsKey(player.getUniqueId())) {
-			Common.broadcast("&1[&bPocket Beacon&1]&r Starting runnable for " + player.getName());
-			PlayerCache.getCache(player).saveData();
-			runnable.runTaskTimer(BeaconPlugin.getInstance(), 0, 5);
-			runnableMap.put(player.getUniqueId(), runnable);
-		}
+    @Getter
+    private HashMap<UUID, BukkitRunnable> runnableMap = new HashMap<>();
 
 
-	}
+    private BeaconTaskManager() {
+    }
 
-	public void stop(Player player) {
-		if (runnableMap.containsKey(player.getUniqueId())) {
-			Common.broadcast("&1[&bPocket Beacon&1]&r Stopping runnable for " + player.getName());
-			PlayerCache.getCache(player).saveData();
-			runnableMap.get(player.getUniqueId()).cancel();
-			runnableMap.remove(player.getUniqueId());
-
-		}
-
-		Common.broadcast("&1[&bPocket Beacon&1]&r Saving data for " + player.getName() + " in the data.db file");
+    public void start(Player player, BukkitRunnable runnable) {
+        if (!runnableMap.containsKey(player.getUniqueId())) {
+            PlayerCache.getCache(player).saveData();
+            runnable.runTaskTimer(BeaconPlugin.getInstance(), 0, 5);
+            runnableMap.put(player.getUniqueId(), runnable);
+        }
 
 
-	}
+    }
+
+    public void stop(Player player) {
+        if (runnableMap.containsKey(player.getUniqueId())) {
+            PlayerCache.getCache(player).saveData();
+            runnableMap.get(player.getUniqueId()).cancel();
+            runnableMap.remove(player.getUniqueId());
+
+        }
+    }
 
 }

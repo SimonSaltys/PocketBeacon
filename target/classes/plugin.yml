@@ -6,7 +6,7 @@
 # See https://www.spigotmc.org/wiki/plugin-yml/ for more information.
 #
 name: PocketBeacon
-version: 1.0.1
+version: 1.0.2
 main: dev.tablesalt.pocketbeacon.BeaconPlugin
 author: tablesalt
 # DO NOT EDIT. This api-version is used for maximum backward compatibility.

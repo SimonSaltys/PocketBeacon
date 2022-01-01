@@ -19,346 +19,345 @@ import org.mineacademy.fo.remain.CompMaterial;
 public class BeaconMenu extends Menu {
 
 
-	private final ButtonMenu fuelButton;
-	private final ButtonMenu tierOne;
-	private final ButtonMenu tierTwo;
-	private final ButtonMenu tierThree;
+    private final ButtonMenu fuelButton;
+    private final ButtonMenu tierOne;
+    private final ButtonMenu tierTwo;
+    private final ButtonMenu tierThree;
 
-	private final BeaconButton clearButton;
+    private final BeaconButton clearButton;
 
 
-	public BeaconMenu() {
+    public BeaconMenu() {
 
 
-		setSize(9);
-		setTitle(ChatUtil.generateGradient("Pocket Beacon", CompChatColor.AQUA, CompChatColor.DARK_BLUE));
+        setSize(9);
+        setTitle(ChatUtil.generateGradient("Pocket Beacon", CompChatColor.AQUA, CompChatColor.DARK_BLUE));
 
-		//----------------------------------- Tier One (Coal) -----------------------------------//
-		BeaconButton nightButton = new BeaconButton(BeaconState.NIGHT_VISION,
-				ItemCreator.of(CompMaterial.GOLDEN_CARROT).name("Night Vision").hideTags(true).build().make());
+        //----------------------------------- Tier One (Coal) -----------------------------------//
+        BeaconButton nightButton = new BeaconButton(BeaconState.NIGHT_VISION,
+                ItemCreator.of(CompMaterial.GOLDEN_CARROT).name("Night Vision").hideTags(true).build().make());
 
-		BeaconButton slowFallingButton = new BeaconButton(BeaconState.SLOW_FALLING,
-				ItemCreator.of(CompMaterial.FEATHER).name("Slow Falling").hideTags(true).build().make());
+        BeaconButton slowFallingButton = new BeaconButton(BeaconState.SLOW_FALLING,
+                ItemCreator.of(CompMaterial.FEATHER).name("Slow Falling").hideTags(true).build().make());
 
-		BeaconButton jumpButton = new BeaconButton(BeaconState.JUMP_BOOST,
-				ItemCreator.of(CompMaterial.RABBIT_FOOT).name("Jump Boost").hideTags(true).build().make());
+        BeaconButton jumpButton = new BeaconButton(BeaconState.JUMP_BOOST,
+                ItemCreator.of(CompMaterial.RABBIT_FOOT).name("Jump Boost").hideTags(true).build().make());
 
-		BeaconButton speedButton = new BeaconButton(BeaconState.SPEED,
-				ItemCreator.of(CompMaterial.SUGAR).name("Speed").hideTags(true).build().make());
+        BeaconButton speedButton = new BeaconButton(BeaconState.SPEED,
+                ItemCreator.of(CompMaterial.SUGAR).name("Speed").hideTags(true).build().make());
 
-		//----------------------------------- Tier One (Coal) -----------------------------------//
+        //----------------------------------- Tier One (Coal) -----------------------------------//
 
 
-		//----------------------------------- Tier Two (Iron / Gold) -----------------------------------//
-		BeaconButton hasteButton = new BeaconButton(BeaconState.HASTE,
-				ItemCreator.of(CompMaterial.GOLDEN_PICKAXE).name("Haste").hideTags(true).build().make());
+        //----------------------------------- Tier Two (Iron / Gold) -----------------------------------//
+        BeaconButton hasteButton = new BeaconButton(BeaconState.HASTE,
+                ItemCreator.of(CompMaterial.GOLDEN_PICKAXE).name("Haste").hideTags(true).build().make());
 
-		BeaconButton waterButton = new BeaconButton(BeaconState.WATER_BREATHING,
-				ItemCreator.of(CompMaterial.KELP).name("Water Breathing").hideTags(true).build().make());
+        BeaconButton waterButton = new BeaconButton(BeaconState.WATER_BREATHING,
+                ItemCreator.of(CompMaterial.KELP).name("Water Breathing").hideTags(true).build().make());
 
-		BeaconButton swimButton = new BeaconButton(BeaconState.FAST_SWIMMING,
-				ItemCreator.of(CompMaterial.TROPICAL_FISH).name("Dolphins Grace").hideTags(true).build().make());
+        BeaconButton swimButton = new BeaconButton(BeaconState.FAST_SWIMMING,
+                ItemCreator.of(CompMaterial.TROPICAL_FISH).name("Dolphins Grace").hideTags(true).build().make());
 
-		BeaconButton levitationButton = new BeaconButton(BeaconState.LEVITATION,
-				ItemCreator.of(CompMaterial.SHULKER_SHELL).name("Levitation").hideTags(true).build().make());
+        BeaconButton levitationButton = new BeaconButton(BeaconState.LEVITATION,
+                ItemCreator.of(CompMaterial.SHULKER_SHELL).name("Levitation").hideTags(true).build().make());
 
-		//----------------------------------- Tier Tier Two (Iron / Gold) -----------------------------------//
+        //----------------------------------- Tier Tier Two (Iron / Gold) -----------------------------------//
 
 
-		//----------------------------------- Tier Three (Diamond / Emerald ) -----------------------------------//
+        //----------------------------------- Tier Three (Diamond / Emerald ) -----------------------------------//
 
-		BeaconButton resistanceButton = new BeaconButton(BeaconState.RESISTANCE,
-				ItemCreator.of(CompMaterial.SHIELD).name("Resistance").hideTags(true).build().make());
+        BeaconButton resistanceButton = new BeaconButton(BeaconState.RESISTANCE,
+                ItemCreator.of(CompMaterial.SHIELD).name("Resistance").hideTags(true).build().make());
 
 
-		BeaconButton fireButton = new BeaconButton(BeaconState.FIRE_RESISTANCE,
-				ItemCreator.of(CompMaterial.MAGMA_CREAM).name("Fire Resistance").hideTags(true).build().make());
+        BeaconButton fireButton = new BeaconButton(BeaconState.FIRE_RESISTANCE,
+                ItemCreator.of(CompMaterial.MAGMA_CREAM).name("Fire Resistance").hideTags(true).build().make());
 
-		BeaconButton regenButton = new BeaconButton(BeaconState.REGENERATION,
-				ItemCreator.of(CompMaterial.LAPIS_LAZULI).name("Regeneration").hideTags(true).build().make());
+        BeaconButton regenButton = new BeaconButton(BeaconState.REGENERATION,
+                ItemCreator.of(CompMaterial.LAPIS_LAZULI).name("Regeneration").hideTags(true).build().make());
 
 
-		BeaconButton strengthButton = new BeaconButton(BeaconState.STRENGTH,
-				ItemCreator.of(CompMaterial.NETHERITE_AXE).name("Strength").hideTags(true).build().make());
+        BeaconButton strengthButton = new BeaconButton(BeaconState.STRENGTH,
+                ItemCreator.of(CompMaterial.NETHERITE_AXE).name("Strength").hideTags(true).build().make());
 
-		//----------------------------------- Tier Three (Diamond / Emerald ) -----------------------------------//
+        //----------------------------------- Tier Three (Diamond / Emerald ) -----------------------------------//
 
 
-		clearButton = new BeaconButton(BeaconState.NO_EFFECT,
-				ItemCreator.of(CompMaterial.MILK_BUCKET).name("Clear Effect").hideTags(true).build().make());
+        clearButton = new BeaconButton(BeaconState.NO_EFFECT,
+                ItemCreator.of(CompMaterial.MILK_BUCKET).name("Clear Effect").hideTags(true).build().make());
 
-		tierOne = new ButtonMenu(new BeaconTierMenu(new BeaconButton[]{
-				nightButton, slowFallingButton, speedButton, jumpButton
-		}, "Pocket Beacon Tier One"), CompMaterial.COAL_BLOCK, "Tier 1");
+        tierOne = new ButtonMenu(new BeaconTierMenu(new BeaconButton[]{
+                nightButton, slowFallingButton, speedButton, jumpButton
+        }, "Pocket Beacon Tier One"), CompMaterial.COAL_BLOCK, "Tier 1");
 
-		tierTwo = new ButtonMenu(new BeaconTierMenu(new BeaconButton[]{
-				hasteButton, waterButton, swimButton, levitationButton
-		}, "Pocket Beacon Tier Two"), CompMaterial.IRON_BLOCK, "Tier 2");
+        tierTwo = new ButtonMenu(new BeaconTierMenu(new BeaconButton[]{
+                hasteButton, waterButton, swimButton, levitationButton
+        }, "Pocket Beacon Tier Two"), CompMaterial.IRON_BLOCK, "Tier 2");
 
-		tierThree = new ButtonMenu(new BeaconTierMenu(new BeaconButton[]{
-				resistanceButton, fireButton, regenButton, strengthButton
-		}, "Pocket Beacon Tier Three"), CompMaterial.GOLD_BLOCK, "Tier 3");
+        tierThree = new ButtonMenu(new BeaconTierMenu(new BeaconButton[]{
+                resistanceButton, fireButton, regenButton, strengthButton
+        }, "Pocket Beacon Tier Three"), CompMaterial.GOLD_BLOCK, "Tier 3");
 
 
-		fuelButton = new ButtonMenu(new FuelMenu(), CompMaterial.BLAST_FURNACE,
-				"Fuel Menu",
-				"Click to Open",
-				"The Refueling Menu");
+        fuelButton = new ButtonMenu(new FuelMenu(), CompMaterial.BLAST_FURNACE,
+                "Fuel Menu",
+                "Click to Open",
+                "The Refueling Menu");
 
 
-	}
+    }
 
 
-	@Override
-	public ItemStack getItemAt(int slot) {
-		//getting the players cache
-		PlayerCache cache = PlayerCache.getCache(getViewer());
-		int tier;
+    @Override
+    public ItemStack getItemAt(int slot) {
+        //getting the players cache
+        PlayerCache cache = PlayerCache.getCache(getViewer());
+        int tier;
 
-		if (cache.getBeaconFuel() != null && cache.getBeaconFuel().getFuel() != null) {
-			tier = BeaconFuel.getTier(cache.getBeaconFuel().getFuel());
-		} else {
-			tier = 1;
-		}
-
-
-		if (slot == 7)
-			return clearButton.getItem();
-
-		//tier one
-		if (tier == 1) {
-			if (slot == 1)
-				return tierOne.getItem();
-		}
-		//tier two
-		if (tier == 2) {
-			if (slot == 1)
-				return tierOne.getItem();
-			if (slot == 2)
-				return tierTwo.getItem();
-		}
-
-		//tier three
-		if (tier == 3) {
-			if (slot == 1)
-				return tierOne.getItem();
-			if (slot == 2)
-				return tierTwo.getItem();
-			if (slot == 3)
-				return tierThree.getItem();
-		}
-
-		//centerpiece
-		if (slot == getCenterSlot())
-			return ItemCreator.of(CompMaterial.BEACON, "&fPocket Beacon").glow(true).build().make();
-
-		//fuel menu
-		if (slot == 8)
-			return fuelButton.getItem();
-
-		//filler glass
-		if (slot > 0 && slot < 9) {
-			return ItemCreator.of(CompMaterial.PURPLE_STAINED_GLASS_PANE, "").build().make();
-		}
-
-		return null;
-	}
-
-	@Override
-	protected String[] getInfo() {
-		return new String[]{
-				"Pocket Beacon Menu!",
-				"Click one of the effects",
-				"to activate the beacon."
-		};
-	}
-
-
-	private class BeaconTierMenu extends Menu {
-		//All sizes of list must be 4... not bothering to check
-		private final BeaconButton[] beaconButtons;
-
-
-		BeaconTierMenu(BeaconButton[] buttons, String title) {
-			super(BeaconMenu.this);
-			setSize(9);
-			setTitle(ChatUtil.generateGradient(title, CompChatColor.AQUA, CompChatColor.DARK_BLUE));
-			beaconButtons = buttons;
-		}
+        if (cache.getBeaconFuel() != null && cache.getBeaconFuel().getFuel() != null) {
+            tier = BeaconFuel.getTier(cache.getBeaconFuel().getFuel());
+        } else {
+            tier = 1;
+        }
+
+
+        if (slot == 7)
+            return clearButton.getItem();
+
+        //tier one
+        if (tier == 1) {
+            if (slot == 1)
+                return tierOne.getItem();
+        }
+        //tier two
+        if (tier == 2) {
+            if (slot == 1)
+                return tierOne.getItem();
+            if (slot == 2)
+                return tierTwo.getItem();
+        }
+
+        //tier three
+        if (tier == 3) {
+            if (slot == 1)
+                return tierOne.getItem();
+            if (slot == 2)
+                return tierTwo.getItem();
+            if (slot == 3)
+                return tierThree.getItem();
+        }
+
+        //centerpiece
+        if (slot == getCenterSlot())
+            return ItemCreator.of(CompMaterial.BEACON, "&fPocket Beacon").glow(true).build().make();
+
+        //fuel menu
+        if (slot == 8)
+            return fuelButton.getItem();
+
+        //filler glass
+        if (slot > 0 && slot < 9) {
+            return ItemCreator.of(CompMaterial.PURPLE_STAINED_GLASS_PANE, "").build().make();
+        }
+
+        return null;
+    }
+
+    @Override
+    protected String[] getInfo() {
+        return new String[]{
+                "Pocket Beacon Menu!",
+                "Click one of the effects",
+                "to activate the beacon."
+        };
+    }
+
+
+    private class BeaconTierMenu extends Menu {
+        //All sizes of list must be 4... not bothering to check
+        private final BeaconButton[] beaconButtons;
+
+
+        BeaconTierMenu(BeaconButton[] buttons, String title) {
+            super(BeaconMenu.this);
+            setSize(9);
+            setTitle(ChatUtil.generateGradient(title, CompChatColor.AQUA, CompChatColor.DARK_BLUE));
+            beaconButtons = buttons;
+        }
 
 
-		@Override
-		public ItemStack getItemAt(int slot) {
+        @Override
+        public ItemStack getItemAt(int slot) {
 
-			switch (slot) {
-				case 2:
-					return beaconButtons[0].getItem();
-				case 3:
-					return beaconButtons[1].getItem();
-				case 5:
-					return beaconButtons[2].getItem();
-				case 6:
-					return beaconButtons[3].getItem();
-			}
+            switch (slot) {
+                case 2:
+                    return beaconButtons[0].getItem();
+                case 3:
+                    return beaconButtons[1].getItem();
+                case 5:
+                    return beaconButtons[2].getItem();
+                case 6:
+                    return beaconButtons[3].getItem();
+            }
 
-			//centerpiece
-			if (slot == getCenterSlot())
-				return ItemCreator.of(CompMaterial.BEACON, "&fPocket Beacon").glow(true).build().make();
+            //centerpiece
+            if (slot == getCenterSlot())
+                return ItemCreator.of(CompMaterial.BEACON, "&fPocket Beacon").glow(true).build().make();
 
 
-			if (slot == 1 || slot == 7) {
-				return ItemCreator.of(CompMaterial.YELLOW_STAINED_GLASS_PANE, "").build().make();
-			}
+            if (slot == 1 || slot == 7) {
+                return ItemCreator.of(CompMaterial.YELLOW_STAINED_GLASS_PANE, "").build().make();
+            }
 
-			return null;
+            return null;
 
-		}
+        }
 
-		@Override
-		protected String[] getInfo() {
-			return new String[]{
-					""
-			};
-		}
-	}
+        @Override
+        protected String[] getInfo() {
+            return new String[]{
+                    ""
+            };
+        }
+    }
 
 
-	private final class FuelMenu extends Menu {
-		FuelMenu() {
-			super(BeaconMenu.this);
-			setTitle(ChatUtil.generateGradient("Pocket Beacon Fuel", CompChatColor.AQUA, CompChatColor.DARK_BLUE));
-			setSize(9);
-		}
+    private final class FuelMenu extends Menu {
+        FuelMenu() {
+            super(BeaconMenu.this);
+            setTitle(ChatUtil.generateGradient("Pocket Beacon Fuel", CompChatColor.AQUA, CompChatColor.DARK_BLUE));
+            setSize(9);
+        }
 
 
-		@Override
-		public ItemStack getItemAt(int slot) {
-			PlayerCache cache = PlayerCache.getCache(getViewer());
+        @Override
+        public ItemStack getItemAt(int slot) {
+            PlayerCache cache = PlayerCache.getCache(getViewer());
 
-			if (slot == getCenterSlot()) {
+            if (slot == getCenterSlot()) {
 
-				if (cache.getBeaconFuel() == null) return null;
+                if (cache.getBeaconFuel() == null) return null;
 
-				return cache.getBeaconFuel().getFuel();
-			}
-			if (slot > 0 && slot < 9) {
-				return ItemCreator.of(CompMaterial.RED_STAINED_GLASS_PANE, "").build().make();
-			}
+                return cache.getBeaconFuel().getFuel();
+            }
+            if (slot > 0 && slot < 9) {
+                return ItemCreator.of(CompMaterial.RED_STAINED_GLASS_PANE, "").build().make();
+            }
 
-			return null;
+            return null;
 
-		}
-
-		protected String[] getInfo() {
-			return new String[]{
-					"&7&lCoal&r&7:&o Burns slow, &e&l+&r&e&o" + Settings.FuelTypes.COALMULTIPLIER,
-					"&f&lIron&r&7:&o Burns slow, &e&l+&r&e&o" + Settings.FuelTypes.IRONMULTIPLIER,
-					"&e&lGold&r&7:&o Burns fast, &e&l+&r&e&o" + Settings.FuelTypes.GOLDMULTIPLIER + " &7to effects < tier 2",
-					"&b&lDiamond&r&7:&o Burns slow, &e&l+&r&e&o" + Settings.FuelTypes.DIAMONDMULTIPLIER + " &7to effects < tier 3",
-					"&a&lEmerald&r&7:&o Burns extremely fast, &e&l+&r&e&o" + Settings.FuelTypes.EMERALDMULTIPLIER + " &7to effects <= tier 3"
-			};
-		}
+        }
 
+        protected String[] getInfo() {
+            return new String[]{
+                    "&7&lCoal&r&7:&o Burns slow, &e&l+&r&e&o" + Settings.FuelTypes.COALMULTIPLIER,
+                    "&f&lIron&r&7:&o Burns slow, &e&l+&r&e&o" + Settings.FuelTypes.IRONMULTIPLIER,
+                    "&e&lGold&r&7:&o Burns fast, &e&l+&r&e&o" + Settings.FuelTypes.GOLDMULTIPLIER + " &7to effects < tier 2",
+                    "&b&lDiamond&r&7:&o Burns slow, &e&l+&r&e&o" + Settings.FuelTypes.DIAMONDMULTIPLIER + " &7to effects < tier 3",
+                    "&a&lEmerald&r&7:&o Burns extremely fast, &e&l+&r&e&o" + Settings.FuelTypes.EMERALDMULTIPLIER + " &7to effects <= tier 3"
+            };
+        }
 
-		@Override
-		protected boolean isActionAllowed(MenuClickLocation location, int slot, ItemStack clicked, ItemStack cursor) {
 
-			if (location.equals(MenuClickLocation.MENU)) {
-				return slot == getCenterSlot();
-			}
+        @Override
+        protected boolean isActionAllowed(MenuClickLocation location, int slot, ItemStack clicked, ItemStack cursor) {
 
-			return location == MenuClickLocation.PLAYER_INVENTORY && (clicked == null || BeaconFuel.isFuel(clicked));
-		}
+            if (location.equals(MenuClickLocation.MENU)) {
+                return slot == getCenterSlot();
+            }
 
+            return location == MenuClickLocation.PLAYER_INVENTORY && (clicked == null || BeaconFuel.isFuel(clicked));
+        }
 
-		@Override
-		protected void onMenuClose(Player player, Inventory inventory) {
-			super.onMenuClose(player, inventory);
-			PlayerCache cache = PlayerCache.getCache(player);
 
-			if (inventory.getItem(getCenterSlot()) == null) {
-				if (cache.getBeaconFuel() != null) {
-					cache.setBeaconFuel(null);
-				}
-			}
+        @Override
+        protected void onMenuClose(Player player, Inventory inventory) {
+            super.onMenuClose(player, inventory);
+            PlayerCache cache = PlayerCache.getCache(player);
 
+            if (inventory.getItem(getCenterSlot()) == null) {
+                if (cache.getBeaconFuel() != null) {
+                    cache.setBeaconFuel(null);
+                }
+            }
 
-			if (inventory.getItem(getCenterSlot()) != null) {
 
-				cache.setBeaconFuel(new BeaconFuel(inventory.getItem(getCenterSlot())));
+            if (inventory.getItem(getCenterSlot()) != null) {
 
-				if (!cache.getBeaconFuel().isBurning() && !cache.getBeaconFuel().isEmpty()) {
-					cache.getBeaconFuel().setBurning(true);
+                cache.setBeaconFuel(new BeaconFuel(inventory.getItem(getCenterSlot())));
 
+                if (!cache.getBeaconFuel().isBurning() && !cache.getBeaconFuel().isEmpty()) {
+                    cache.getBeaconFuel().setBurning(true);
 
-					BeaconTaskManager.getInstance().start(player, new BukkitRunnable() {
-						final BeaconFuel currentFuel = PlayerCache.getCache(player).getBeaconFuel();
-						final int burnTime = BeaconFuel.getBurnTime(currentFuel.getFuel());
 
-						int amountLeft = cache.getBeaconFuel().getFuel().getAmount();
-						int timer = 0;
+                    BeaconTaskManager.getInstance().start(player, new BukkitRunnable() {
+                        final BeaconFuel currentFuel = PlayerCache.getCache(player).getBeaconFuel();
+                        final int burnTime = BeaconFuel.getBurnTime(currentFuel.getFuel());
 
-						@Override
-						public void run() {
+                        int amountLeft = cache.getBeaconFuel().getFuel().getAmount();
+                        int timer = 0;
 
-							if (cache.getCurrentState().equals(BeaconState.NO_EFFECT) || !PocketBeacons.isHolding(player)) {
-								return;
-							}
+                        @Override
+                        public void run() {
 
-							//checks when an item should be burned
-							if (timer >= burnTime) {
-								amountLeft--;
-								currentFuel.setAmount(amountLeft);
-								
-								if (cache.getBeaconFuel() != null) {
-									cache.getBeaconFuel().setFuel(currentFuel.getFuel());
-								}
+                            if (cache.getCurrentState().equals(BeaconState.NO_EFFECT) || !PocketBeacons.isHolding(player)) {
+                                return;
+                            }
 
-								//todo need to update cache 
-								timer = 0;
+                            //checks when an item should be burned
+                            if (timer >= burnTime) {
+                                amountLeft--;
+                                currentFuel.setAmount(amountLeft);
 
-								new SimpleSound(Sound.BLOCK_BLASTFURNACE_FIRE_CRACKLE, 5, 1).play(player);
-								return;
-							}
+                                if (cache.getBeaconFuel() != null) {
+                                    cache.getBeaconFuel().setFuel(currentFuel.getFuel());
+                                }
 
+                                //todo need to update cache
+                                timer = 0;
 
-							//handles logic when player is viewing the ticking inventory
-							if (isViewing(player)) {
-								ItemStack cursorItem = getViewer().getItemOnCursor();
+                                new SimpleSound(Sound.BLOCK_BLASTFURNACE_FIRE_CRACKLE, 5, 1).play(player);
+                                return;
+                            }
 
-								if (BeaconFuel.isFuel(cursorItem)) {
-									BeaconTaskManager.getInstance().stop(player);
-									return;
-								}
-								restartMenu();
-							}
 
-							//stops the fuel ticking when the fuel is empty
-							if (currentFuel.isEmpty() || (cache.getBeaconFuel() != null && !cache.getBeaconFuel().isBurning())) {
-								setItem(getCenterSlot(), null);
-								new SimpleSound(Sound.BLOCK_BEACON_DEACTIVATE, 10, 1).play(player);
-								BeaconTaskManager.getInstance().stop(player);
-								return;
-							}
-							timer++;
+                            //handles logic when player is viewing the ticking inventory
+                            if (isViewing(player)) {
+                                ItemStack cursorItem = getViewer().getItemOnCursor();
 
-						}
+                                if (BeaconFuel.isFuel(cursorItem)) {
+                                    BeaconTaskManager.getInstance().stop(player);
+                                    return;
+                                }
+                                restartMenu();
+                            }
 
-						public void cancel() {
-							cache.getBeaconFuel().setBurning(false);
-							cache.setCurrentState(BeaconState.NO_EFFECT);
-							super.cancel();
+                            //stops the fuel ticking when the fuel is empty
+                            if (currentFuel.isEmpty() || (cache.getBeaconFuel() != null && !cache.getBeaconFuel().isBurning())) {
+                                setItem(getCenterSlot(), null);
+                                new SimpleSound(Sound.BLOCK_BEACON_DEACTIVATE, 10, 1).play(player);
+                                BeaconTaskManager.getInstance().stop(player);
+                                return;
+                            }
+                            timer++;
+                        }
 
-						}
+                        public void cancel() {
+                            cache.getBeaconFuel().setBurning(false);
+                            cache.setCurrentState(BeaconState.NO_EFFECT);
+                            super.cancel();
 
-					});
-				}
-			}
+                        }
 
-			cache.saveData();
+                    });
+                }
+            }
 
-		}
-	}
+            cache.saveData();
+
+        }
+    }
 
 
 }

@@ -37,6 +37,7 @@
 # The multiplier specifies what level to increase the effects by. For example when Iron is set at 1
 # it will give the player speed 2
 #--------------------------------------------------------------------------------------------------
+Block_Burn_Multiplier: 9
 
 Fuel_Types:
   Coal:

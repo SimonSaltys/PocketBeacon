@@ -1,6 +1,8 @@
 package dev.tablesalt.pocketbeacon.beacon;
 
+import com.comphenix.protocol.PacketType;
 import dev.tablesalt.pocketbeacon.BeaconPlugin;
+import dev.tablesalt.pocketbeacon.PlayerCache;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Beacon;
@@ -27,7 +29,8 @@ public class BeaconTaskManager {
 
 	public void start(Player player, BukkitRunnable runnable) {
 		if (!runnableMap.containsKey(player.getUniqueId())) {
-			Common.broadcast("Starting Runnable");
+			Common.broadcast("&1[&bPocket Beacon&1]&r Starting runnable for " + player.getName());
+			PlayerCache.getCache(player).saveData();
 			runnable.runTaskTimer(BeaconPlugin.getInstance(), 0, 5);
 			runnableMap.put(player.getUniqueId(), runnable);
 		}
@@ -37,9 +40,14 @@ public class BeaconTaskManager {
 
 	public void stop(Player player) {
 		if (runnableMap.containsKey(player.getUniqueId())) {
-			Common.broadcast("Stopping Runnable");
+			Common.broadcast("&1[&bPocket Beacon&1]&r Stopping runnable for " + player.getName());
+			PlayerCache.getCache(player).saveData();
+			runnableMap.get(player.getUniqueId()).cancel();
 			runnableMap.remove(player.getUniqueId());
+
 		}
+
+		Common.broadcast("&1[&bPocket Beacon&1]&r Saving data for " + player.getName() + " in the data.db file");
 
 
 	}

@@ -27,6 +27,8 @@ import java.util.Set;
 @UtilityClass
 public class PocketBeacons {
 
+	@Getter
+	private static final NamespacedKey key = new NamespacedKey(BeaconPlugin.getInstance(), "pocket_beacon");
 
 	public static void giveBeacon(Player target) {
 		target.getInventory().addItem(getBeaconItem());
@@ -38,12 +40,15 @@ public class PocketBeacons {
 	}
 
 	public static ShapedRecipe getRecipe() {
-		NamespacedKey key = new NamespacedKey(BeaconPlugin.getInstance(), "pocket_beacon");
+
 
 		ShapedRecipe recipe = new ShapedRecipe(key, getBeaconItem());
 
-		recipe.shape("SSS", "SSS", "SSS");
-		recipe.setIngredient('S', Material.BEACON);
+		recipe.shape("DSD", "NBN", "DSD");
+		recipe.setIngredient('B', Material.BEACON);
+		recipe.setIngredient('N', Material.NETHERITE_INGOT);
+		recipe.setIngredient('D', Material.DIAMOND_BLOCK);
+		recipe.setIngredient('S', Material.SHULKER_SHELL);
 
 		return recipe;
 	}
@@ -58,8 +63,8 @@ public class PocketBeacons {
 			player.removePotionEffect(previousEffect);
 		}
 
-		if (nextEffect != null) {
-			player.addPotionEffect(new PotionEffect(nextEffect, 20 * 4, 1));
+		if (nextEffect != null && cache.getBeaconFuel() != null) {
+			player.addPotionEffect(new PotionEffect(nextEffect, 20 * 7, BeaconFuel.getEffectMultiplier(cache.getBeaconFuel().getFuel())));
 		}
 		cache.setCurrentState(beaconState);
 	}

@@ -1,16 +1,10 @@
 package dev.tablesalt.pocketbeacon.task;
 
-import com.palmergames.bukkit.towny.event.RenameNationEvent;
 import dev.tablesalt.pocketbeacon.PlayerCache;
 import dev.tablesalt.pocketbeacon.beacon.BeaconState;
 import dev.tablesalt.pocketbeacon.beacon.PocketBeacons;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.mineacademy.fo.Common;
-import org.mineacademy.fo.model.SimpleSound;
 import org.mineacademy.fo.remain.Remain;
 
 public class BeaconTask extends BukkitRunnable {
@@ -57,8 +51,8 @@ public class BeaconTask extends BukkitRunnable {
 					case FIRE_RESISTANCE:
 						PocketBeacons.updateEffect(player, BeaconState.FIRE_RESISTANCE);
 						break;
-					case SATURATION:
-						PocketBeacons.updateEffect(player, BeaconState.SATURATION);
+					case REGENERATION:
+						PocketBeacons.updateEffect(player, BeaconState.REGENERATION);
 						break;
 					case STRENGTH:
 						PocketBeacons.updateEffect(player, BeaconState.STRENGTH);

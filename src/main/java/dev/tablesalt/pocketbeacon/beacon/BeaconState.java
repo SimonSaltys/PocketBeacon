@@ -5,7 +5,7 @@ import org.bukkit.potion.PotionEffectType;
 public enum BeaconState {
 	NO_EFFECT, JUMP_BOOST, SPEED, HASTE,
 	SLOW_FALLING, RESISTANCE, NIGHT_VISION,
-	FIRE_RESISTANCE, SATURATION, LEVITATION,
+	FIRE_RESISTANCE, REGENERATION, LEVITATION,
 	STRENGTH, FAST_SWIMMING, WATER_BREATHING;
 
 	public static PotionEffectType toPotionEffectType(BeaconState beaconState) {
@@ -26,8 +26,8 @@ public enum BeaconState {
 				return PotionEffectType.NIGHT_VISION;
 			case FIRE_RESISTANCE:
 				return PotionEffectType.FIRE_RESISTANCE;
-			case SATURATION:
-				return PotionEffectType.SATURATION;
+			case REGENERATION:
+				return PotionEffectType.REGENERATION;
 			case LEVITATION:
 				return PotionEffectType.LEVITATION;
 			case STRENGTH:
@@ -36,7 +36,6 @@ public enum BeaconState {
 				return PotionEffectType.DOLPHINS_GRACE;
 			case WATER_BREATHING:
 				return PotionEffectType.WATER_BREATHING;
-
 		}
 		return null;
 	}

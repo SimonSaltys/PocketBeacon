@@ -41,7 +41,7 @@ public final class BeaconPlugin extends SimplePlugin {
 
 		registerCommands("pocketbeacon|beacon|pb", BeaconCommandGroup.getInstance());
 		registerEvents(BeaconListener.getInstance());
-		getServer().addRecipe(PocketBeacons.getRecipe());
+		Bukkit.addRecipe(PocketBeacons.getRecipe());
 
 		BeaconTask beaconTask = new BeaconTask();
 		beaconTask.runTaskTimer(this, 0, 5);

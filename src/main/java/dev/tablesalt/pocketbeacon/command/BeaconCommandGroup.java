@@ -16,7 +16,6 @@ public final class BeaconCommandGroup extends SimpleCommandGroup {
 	protected void registerSubcommands() {
 
 		registerSubcommand(new GiveBeaconCommand(this));
-		registerSubcommand(new BeaconDebugCommand(this));
 	}
 
 	@Override

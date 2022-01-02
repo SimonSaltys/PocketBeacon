@@ -1,12 +1,42 @@
 package dev.tablesalt.pocketbeacon.beacon;
 
+import lombok.Getter;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
+import org.mineacademy.fo.ItemUtil;
+import org.mineacademy.fo.menu.model.ItemCreator;
+import org.mineacademy.fo.remain.CompMaterial;
 
 public enum BeaconState {
-	NO_EFFECT, JUMP_BOOST, SPEED, HASTE,
-	SLOW_FALLING, RESISTANCE, NIGHT_VISION,
-	FIRE_RESISTANCE, REGENERATION, LEVITATION,
-	STRENGTH, FAST_SWIMMING, WATER_BREATHING;
+	NO_EFFECT(0, Material.MILK_BUCKET),
+
+	JUMP_BOOST(1, Material.RABBIT_FOOT),
+	SPEED(1, Material.SUGAR),
+	SLOW_FALLING(1, Material.SHULKER_SHELL),
+	NIGHT_VISION(1, Material.GOLDEN_CARROT),
+
+	HASTE(2, Material.GOLDEN_AXE),
+	FAST_SWIMMING(2, Material.TROPICAL_FISH),
+	WATER_BREATHING(2, Material.TRIDENT),
+	LEVITATION(2, Material.PHANTOM_MEMBRANE),
+
+	RESISTANCE(3, Material.SHIELD),
+	FIRE_RESISTANCE(3, Material.MAGMA_CREAM),
+	REGENERATION(3, Material.COOKED_BEEF),
+	STRENGTH(3, Material.NETHERITE_AXE);
+
+
+	@Getter
+	int tier;
+	@Getter
+	ItemStack item;
+
+	BeaconState(int tier, Material material) {
+		this.tier = tier;
+		item = ItemCreator.of(CompMaterial.fromMaterial(material),
+				ItemUtil.bountifyCapitalized(this.toString())).build().make();
+	}
 
 	public static PotionEffectType toPotionEffectType(BeaconState beaconState) {
 		switch (beaconState) {

@@ -9,13 +9,15 @@ import org.mineacademy.fo.remain.CompSound;
 public class GiveBeaconCommand extends TargetedCommand {
 
 
-    protected GiveBeaconCommand(final SimpleCommandGroup parent) {
-        super(parent, "give");
-        setDescription("&7Gives the target a pocket beacon");
-    }
+	protected GiveBeaconCommand(final SimpleCommandGroup parent) {
+		super(parent, "give");
+		setPermission("pocketbeacon.give");
+		setDescription("&7Gives the target a pocket beacon");
+	}
 
-    protected void onCommandFor(Player target) {
-        PocketBeacons.giveBeacon(target);
-        CompSound.ITEM_PICKUP.play(target);
-    }
+	protected void onCommandFor(Player target) {
+		checkPerm("pocketbeacon.give");
+		PocketBeacons.giveBeacon(target);
+		CompSound.ITEM_PICKUP.play(target);
+	}
 }

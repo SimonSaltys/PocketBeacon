@@ -1,159 +1,154 @@
 package dev.tablesalt.pocketbeacon.beacon;
 
-import dev.tablesalt.pocketbeacon.PlayerCache;
 import dev.tablesalt.pocketbeacon.settings.Settings;
-import github.scarsz.discordsrv.dependencies.trove.iterator.TPrimitiveIterator;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Material;
-import org.bukkit.block.Beacon;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitTask;
-import org.mineacademy.fo.Common;
-import org.mineacademy.fo.ItemUtil;
-import org.mineacademy.fo.Valid;
 import org.mineacademy.fo.collection.SerializedMap;
-import org.mineacademy.fo.menu.model.ItemCreator;
 import org.mineacademy.fo.model.ConfigSerializable;
-import org.mineacademy.fo.remain.CompMaterial;
 import org.mineacademy.fo.settings.YamlConfig;
-
-import java.awt.*;
-import java.util.HashMap;
-import java.util.UUID;
 
 public class BeaconFuel extends YamlConfig implements ConfigSerializable {
 
-    @Getter
-    @Setter
-    private ItemStack fuel;
+	@Getter
+	@Setter
+	private ItemStack fuel;
 
-    @Getter
-    @Setter
-    private boolean isBurning = false;
+	@Getter
+	@Setter
+	private boolean isBurning = false;
 
-    public BeaconFuel(ItemStack fuel) {
-        this.fuel = fuel;
-    }
-
-
-    public boolean isEmpty() {
-        return fuel.getAmount() < 1 || fuel.getType().equals(Material.AIR);
-    }
-
-    public void setAmount(int amount) {
-        fuel.setAmount(amount);
-    }
-
-    @Override
-    public SerializedMap serialize() {
-        SerializedMap map = new SerializedMap();
-        map.put("Fuel", fuel);
-        return map;
-    }
-
-    //-----------------------------------//-----------------------------------//
-    //                                  STATIC
-    //-----------------------------------//-----------------------------------//
+	public BeaconFuel(ItemStack fuel) {
+		this.fuel = fuel;
+	}
 
 
-    public static int getTier(ItemStack itemStack) {
+	public boolean isEmpty() {
+		return fuel.getAmount() < 1 || fuel.getType().equals(Material.AIR);
+	}
 
-        switch (itemStack.getType()) {
-            case COAL:
-            case COAL_BLOCK:
-                return 1;
-            case DIAMOND:
-            case DIAMOND_BLOCK:
-            case EMERALD:
-            case EMERALD_BLOCK:
-                return 3;
-            case IRON_INGOT:
-            case IRON_BLOCK:
-            case GOLD_INGOT:
-            case GOLD_BLOCK:
-                return 2;
-        }
+	public void setAmount(int amount) {
+		fuel.setAmount(amount);
+	}
 
-        return 0;
-    }
+	@Override
+	public SerializedMap serialize() {
+		SerializedMap map = new SerializedMap();
+		map.put("Fuel", fuel);
+		return map;
+	}
 
-    public static boolean isFuel(ItemStack itemStack) {
-        switch (itemStack.getType()) {
-            case COAL:
-            case COAL_BLOCK:
-            case DIAMOND:
-            case DIAMOND_BLOCK:
-            case EMERALD:
-            case EMERALD_BLOCK:
-            case IRON_INGOT:
-            case IRON_BLOCK:
-            case GOLD_INGOT:
-            case GOLD_BLOCK:
-                return true;
-            default:
-                return false;
-        }
-    }
+	//-----------------------------------//-----------------------------------//
+	//                                  STATIC
+	//-----------------------------------//-----------------------------------//
 
-    public static int getEffectMultiplier(ItemStack itemStack) {
-        switch (itemStack.getType()) {
-            case COAL:
-                return Settings.FuelTypes.COALMULTIPLIER;
-            case IRON_INGOT:
-                return Settings.FuelTypes.IRONMULTIPLIER;
-            case GOLD_INGOT:
-                return Settings.FuelTypes.GOLDMULTIPLIER;
-            case DIAMOND:
-                return Settings.FuelTypes.DIAMONDMULTIPLIER;
-            case EMERALD:
-                return Settings.FuelTypes.EMERALDMULTIPLIER;
+	public static int getTier(BeaconFuel fuel) {
 
-            default:
-                return 0;
-        }
-    }
+		switch (getBaseMaterial(fuel.getFuel())) {
+			case COAL:
+				return 1;
+			case DIAMOND:
+			case EMERALD:
+				return 3;
+			case IRON_INGOT:
+			case GOLD_INGOT:
+				return 2;
+		}
 
-    public static int getBurnTime(ItemStack itemStack) {
+		return 0;
+	}
 
-        int burnTime = 0;
+	public static boolean isFuel(ItemStack itemStack) {
 
-        switch (itemStack.getType()) {
-            case COAL:
-            case COAL_BLOCK:
-                burnTime += Settings.FuelTypes.COALBURN;
-                break;
-            case IRON_INGOT:
-            case IRON_BLOCK:
-                burnTime += Settings.FuelTypes.IRONBURN;
-                break;
-            case GOLD_INGOT:
-            case GOLD_BLOCK:
-                burnTime += Settings.FuelTypes.GOLDBURN;
-                break;
-            case DIAMOND:
-            case DIAMOND_BLOCK:
-                burnTime += Settings.FuelTypes.DIAMONDBURN;
-                break;
-            case EMERALD:
-            case EMERALD_BLOCK:
-                burnTime += Settings.FuelTypes.EMERALDBURN;
-                break;
-        }
+		switch (getBaseMaterial(itemStack)) {
+			case COAL:
+			case DIAMOND:
+			case EMERALD:
+			case IRON_INGOT:
+			case GOLD_INGOT:
+				return true;
+			default:
+				return false;
+		}
+	}
 
-        if (itemStack.getType().isBlock() && isFuel(itemStack)) {
-            burnTime *= Settings.FuelTypes.BLOCK_BURN_MULTIPLIER;
-        }
+	public static int getEffectMultiplier(BeaconFuel fuel) {
 
-        return burnTime;
+		switch (getBaseMaterial(fuel.getFuel())) {
+			case COAL:
+				return Settings.FuelTypes.COALMULTIPLIER;
+			case IRON_INGOT:
+				return Settings.FuelTypes.IRONMULTIPLIER;
+			case GOLD_INGOT:
+				return Settings.FuelTypes.GOLDMULTIPLIER;
+			case DIAMOND:
+				return Settings.FuelTypes.DIAMONDMULTIPLIER;
+			case EMERALD:
+				return Settings.FuelTypes.EMERALDMULTIPLIER;
 
+			default:
+				return 0;
+		}
+	}
 
-    }
+	public static int getBurnTime(BeaconFuel fuel) {
+		int burnTime = 0;
 
-    public static BeaconFuel deserialize(SerializedMap map) {
-        return new BeaconFuel(map.getItem("Fuel"));
-    }
+		switch (getBaseMaterial(fuel.getFuel())) {
+			case COAL:
+				burnTime += Settings.FuelTypes.COALBURN;
+				break;
+			case IRON_INGOT:
+				burnTime += Settings.FuelTypes.IRONBURN;
+				break;
+			case GOLD_INGOT:
+				burnTime += Settings.FuelTypes.GOLDBURN;
+				break;
+			case DIAMOND:
+				burnTime += Settings.FuelTypes.DIAMONDBURN;
+				break;
+			case EMERALD:
+				burnTime += Settings.FuelTypes.EMERALDBURN;
+				break;
+			default:
+				burnTime += 20;
+		}
+
+		if (fuel.getFuel().getType().isBlock() && isFuel(fuel.getFuel())) {
+			burnTime *= Settings.FuelTypes.BLOCK_BURN_MULTIPLIER;
+		}
+		return burnTime;
+	}
+
+	//kinda hacky but works for now.
+	private static Material getBaseMaterial(ItemStack item) {
+		Material type = item.getType();
+
+		if (type.isBlock() && type.name().contains("_BLOCK")) {
+			String[] words = type.name().split("_");
+			String baseName = words[0];
+
+			switch (baseName.toUpperCase()) {
+				case "COAL":
+					return Material.COAL;
+				case "IRON":
+					return Material.IRON_INGOT;
+				case "GOLD":
+					return Material.GOLD_INGOT;
+				case "DIAMOND":
+					return Material.DIAMOND;
+				case "EMERALD":
+					return Material.EMERALD;
+			}
+		}
+		return type;
+
+	}
+
+	public static BeaconFuel deserialize(SerializedMap map) {
+		return new BeaconFuel(map.getItem("Fuel"));
+	}
 
 
 }

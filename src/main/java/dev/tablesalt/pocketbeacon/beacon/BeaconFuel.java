@@ -37,6 +37,7 @@ public class BeaconFuel extends YamlConfig implements ConfigSerializable {
 		SerializedMap map = new SerializedMap();
 		map.put("Fuel", fuel);
 		return map;
+
 	}
 
 	//-----------------------------------//-----------------------------------//
@@ -97,22 +98,22 @@ public class BeaconFuel extends YamlConfig implements ConfigSerializable {
 
 		switch (getBaseMaterial(fuel.getFuel())) {
 			case COAL:
-				burnTime += Settings.FuelTypes.COALBURN;
+				burnTime = Settings.FuelTypes.COALBURN.getTimeTicks();
 				break;
 			case IRON_INGOT:
-				burnTime += Settings.FuelTypes.IRONBURN;
+				burnTime = Settings.FuelTypes.IRONBURN.getTimeTicks();
 				break;
 			case GOLD_INGOT:
-				burnTime += Settings.FuelTypes.GOLDBURN;
+				burnTime = Settings.FuelTypes.GOLDBURN.getTimeTicks();
 				break;
 			case DIAMOND:
-				burnTime += Settings.FuelTypes.DIAMONDBURN;
+				burnTime = Settings.FuelTypes.DIAMONDBURN.getTimeTicks();
 				break;
 			case EMERALD:
-				burnTime += Settings.FuelTypes.EMERALDBURN;
+				burnTime = Settings.FuelTypes.EMERALDBURN.getTimeTicks();
 				break;
 			default:
-				burnTime += 20;
+				burnTime = 20;
 		}
 
 		if (fuel.getFuel().getType().isBlock() && isFuel(fuel.getFuel())) {
@@ -123,6 +124,9 @@ public class BeaconFuel extends YamlConfig implements ConfigSerializable {
 
 	//kinda hacky but works for now.
 	private static Material getBaseMaterial(ItemStack item) {
+
+		if (item == null) return Material.AIR;
+
 		Material type = item.getType();
 
 		if (type.isBlock() && type.name().contains("_BLOCK")) {

@@ -14,8 +14,10 @@ import org.bukkit.potion.PotionEffectType;
 import org.mineacademy.fo.menu.model.ItemCreator;
 import org.mineacademy.fo.remain.CompMaterial;
 
+import java.util.Random;
+
 @UtilityClass
-public class PocketBeacons {
+public class BeaconUtil {
 
 	@Getter
 	private static final NamespacedKey key = new NamespacedKey(BeaconPlugin.getInstance(), "pocket_beacon");
@@ -43,29 +45,65 @@ public class PocketBeacons {
 		return recipe;
 	}
 
-	public static void updateEffect(Player player, BeaconState beaconState) {
-		
+	public static void updateEffect(Player player, BeaconState nextState) {
 
+		//get the players cache
 		PlayerCache cache = PlayerCache.getCache(player);
-		PotionEffectType previousEffect = BeaconState.toPotionEffectType(cache.getCurrentState());
-		PotionEffectType nextEffect = BeaconState.toPotionEffectType(beaconState);
+
+		//get the current active effect and the next effect to switch to
+		PotionEffectType currentEffect = BeaconState.toPotionEffectType(cache.getCurrentState());
+		PotionEffectType nextEffect = BeaconState.toPotionEffectType(nextState);
 
 
-		if (previousEffect != null && previousEffect != nextEffect) {
-			player.removePotionEffect(previousEffect);
+		if (currentEffect != null && currentEffect != nextEffect) {
+			player.removePotionEffect(currentEffect);
 		}
+
+		//todo add the tier modifier if any
+		// can assume that there is fuel since we would not be updating the effect otherwise.
+
+
+		int modifier = 0;
+		int fuelTier = BeaconFuel.getTier(cache.getBeaconFuel());
+
+		if (nextState.getTier() < fuelTier)
+			modifier = BeaconFuel.getEffectMultiplier(cache.getBeaconFuel());
 
 		if (nextEffect != null && cache.getBeaconFuel() != null) {
 			player.addPotionEffect(new PotionEffect(nextEffect,
-					(beaconState == BeaconState.NIGHT_VISION ? 20 : 2) * 20
-					, BeaconFuel.getEffectMultiplier(cache.getBeaconFuel())));
+					(nextState == BeaconState.NIGHT_VISION ? 20 : 2) * 20
+					, modifier));
 		}
-		cache.setCurrentState(beaconState);
+
+		//update the cache to the new effect
+		cache.setCurrentState(nextState);
 	}
 
 	public static boolean isHolding(Player player) {
 		return player.getInventory().getItemInOffHand().isSimilar(getBeaconItem()) ||
 				player.getInventory().getItemInMainHand().isSimilar(getBeaconItem());
+	}
+
+	public static ItemStack getColorfulGlass() {
+		Random random = new Random();
+
+
+		switch (random.nextInt(4)) {
+			case 1:
+				return makeGlass(Material.BLUE_STAINED_GLASS_PANE);
+			case 2:
+				return makeGlass(Material.PURPLE_STAINED_GLASS_PANE);
+			case 3:
+				return makeGlass(Material.RED_STAINED_GLASS_PANE);
+		}
+
+		return makeGlass(Material.PINK_STAINED_GLASS_PANE);
+
+	}
+
+
+	private ItemStack makeGlass(Material material) {
+		return ItemCreator.of(CompMaterial.fromMaterial(material), "").build().make();
 	}
 
 

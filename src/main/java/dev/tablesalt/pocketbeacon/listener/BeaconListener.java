@@ -1,26 +1,20 @@
 package dev.tablesalt.pocketbeacon.listener;
 
-import dev.tablesalt.pocketbeacon.PlayerCache;
 import dev.tablesalt.pocketbeacon.beacon.BeaconMenu;
-import dev.tablesalt.pocketbeacon.beacon.BeaconState;
 import dev.tablesalt.pocketbeacon.beacon.BeaconTaskManager;
-import dev.tablesalt.pocketbeacon.beacon.PocketBeacons;
+import dev.tablesalt.pocketbeacon.beacon.BeaconUtil;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.bukkit.Keyed;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffectType;
 import org.mineacademy.fo.Common;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -36,7 +30,7 @@ public class BeaconListener implements Listener {
 		Player player = event.getPlayer();
 
 		if ((event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) &&
-				(player.getInventory().getItemInMainHand().isSimilar(PocketBeacons.getBeaconItem()))) {
+				(player.getInventory().getItemInMainHand().isSimilar(BeaconUtil.getBeaconItem()))) {
 
 			new BeaconMenu().displayTo(player);
 		}
@@ -47,8 +41,8 @@ public class BeaconListener implements Listener {
 	public void onJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 
-		if (!player.getDiscoveredRecipes().contains(PocketBeacons.getKey())) {
-			player.discoverRecipe(PocketBeacons.getKey());
+		if (!player.getDiscoveredRecipes().contains(BeaconUtil.getKey())) {
+			player.discoverRecipe(BeaconUtil.getKey());
 			Common.tell(player, "&1[&bPocket Beacon&1]&r &bPssssst &9You Unlocked the pocket beacon recipe.");
 		}
 
@@ -58,7 +52,7 @@ public class BeaconListener implements Listener {
 
 	@EventHandler
 	public void onBeaconPlace(BlockPlaceEvent event) {
-		ItemStack beacon = PocketBeacons.getBeaconItem();
+		ItemStack beacon = BeaconUtil.getBeaconItem();
 
 		if (event.getItemInHand().isSimilar(beacon)) {
 			event.setCancelled(true);

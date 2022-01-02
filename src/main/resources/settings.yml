@@ -2,59 +2,38 @@
 #                       Welcome to the main configuration of ${project.name}
 # !-----------------------------------------------------------------------------------------------!
 #
-#    This is the main plugin's settings class. You can use SimpleSettings to load values from it,
-#    and update it automatically.
-#
-#    For support and documentation, please visit:
-#    - https://github.com/${author}/${project.name}/wiki
-#
-# !-----------------------------------------------------------------------------------------------!
-#
 #    1) COLOR CODES are supported with the '&' character.
 #       - For usage, see http://minecraftwiki.net/wiki/Formatting_codes
 #       - When you use them, place quotes around the message like this: "Hello &cworld."
 #       - To use HEX colors, use #123456 syntax: "Hello #123456world."
 #
-#    2) TO HIDE any message, set it to 'none'.
-#
-#    3) For UNICODE CHARACTERS (smileys, symbols, ..), save the file in UTF-8 encoding. See
-#       - https://github.com/${author}/${project.name}/wiki/Use-Right-Encoding
-#
-#    4) JSON is supported.
-#       - For usage, see https://github.com/${author}/${project.name}/wiki/JSON
-#
-#    5) WHITELISTS can be turned into blacklists, by putting "@blacklist" on the first line.
-#       - Doing such, filters will only apply for messages in those lists.
-#
-#    PS: Everything above applies for all files in ${project.name}/ folder.
-#
-# !-----------------------------------------------------------------------------------------------!
 
 #--------------------------------------------------------------------------------------------------
 # The burn time specifies how long it will take for items to be consumed from the pocket beacon.
-# The Time it takes to burn is relative to every 5th of a tick.
+# The greater the number the longer it takes to burn.
 #
-# The multiplier specifies what level to increase the effects by. For example when Iron is set at 1
-# it will give the player speed 2
+# The multiplier specifies what level to increase the effects by. For example when Iron is set at 2
+# it will give all tier one effects a boost of +2. Another example when emerald is set at 3 it will give
+# all tier 1, 2 effect a boost of +3
 #--------------------------------------------------------------------------------------------------
 Block_Burn_Multiplier: 9
 
 Fuel_Types:
   Coal:
-    Burn_Time: 50
-    Multiplier: 0
+    Burn_Time: 30 seconds
+    Multiplier: 1
   Iron:
-    Burn_Time: 45
-    Multiplier: 1
+    Burn_Time: 45 seconds
+    Multiplier: 2
   Gold:
-    Burn_Time: 40
-    Multiplier: 2
+    Burn_Time: 35 seconds
+    Multiplier: 3
   Diamond:
-    Burn_Time: 70
-    Multiplier: 1
+    Burn_Time: 1 minute
+    Multiplier: 3
   Emerald:
-    Burn_Time: 10
-    Multiplier: 2
+    Burn_Time: 10 seconds
+    Multiplier: 4
 
 # -------------------------------------------------------------------------------------------------
 # The prefix used in front of most chat or console messages. You can manually use it with
@@ -79,4 +58,4 @@ Debug: [ ]
 # Do not change this value, otherwise it will corrupt your plugin installation!
 # NB: Don't forget to keep this up-to-date with the getConfigVersion method in your Settings class. 
 # -------------------------------------------------------------------------------------------------
-Version: 1
+Version: 2

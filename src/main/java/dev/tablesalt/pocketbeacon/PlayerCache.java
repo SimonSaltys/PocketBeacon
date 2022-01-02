@@ -4,9 +4,7 @@ import dev.tablesalt.pocketbeacon.beacon.BeaconFuel;
 import dev.tablesalt.pocketbeacon.beacon.BeaconState;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.block.Beacon;
 import org.bukkit.entity.Player;
-import org.mineacademy.fo.Common;
 import org.mineacademy.fo.menu.model.ItemCreator;
 import org.mineacademy.fo.remain.CompMaterial;
 import org.mineacademy.fo.settings.YamlSectionConfig;
@@ -30,6 +28,7 @@ public class PlayerCache extends YamlSectionConfig {
 		super(uuid);
 		loadConfiguration(null, "data.db");
 	}
+
 
 	@Override
 	protected void onLoadFinish() {

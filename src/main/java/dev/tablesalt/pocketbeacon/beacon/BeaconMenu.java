@@ -2,15 +2,16 @@ package dev.tablesalt.pocketbeacon.beacon;
 
 import dev.tablesalt.pocketbeacon.PlayerCache;
 import dev.tablesalt.pocketbeacon.settings.Settings;
-import dev.tablesalt.pocketbeacon.util.BeaconUtil;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.mineacademy.fo.ChatUtil;
+import org.mineacademy.fo.Common;
 import org.mineacademy.fo.MathUtil;
 import org.mineacademy.fo.menu.Menu;
 import org.mineacademy.fo.menu.MenuPagged;
@@ -44,7 +45,7 @@ public class BeaconMenu extends Menu {
 		clearButton = new Button() {
 			@Override
 			public void onClickedInMenu(Player player, Menu menu, ClickType click) {
-				PocketBeacons.updateEffect(player, BeaconState.NO_EFFECT);
+				BeaconUtil.updateEffect(player, BeaconState.NO_EFFECT);
 
 				new SimpleSound(Sound.BLOCK_CHAIN_BREAK, 5, MathUtil.range(7, 3, 7)).play(player);
 				new SimpleSound(Sound.BLOCK_END_PORTAL_FRAME_FILL, 5, MathUtil.range(2, 0, 1)).play(player);
@@ -55,6 +56,7 @@ public class BeaconMenu extends Menu {
 				return BeaconState.NO_EFFECT.getItem();
 			}
 		};
+
 
 		tierOne = new ButtonMenu(new BeaconTierMenu(1, "Pocket Beacon Tier One"),
 				CompMaterial.COAL_BLOCK, "Tier 1");
@@ -74,45 +76,19 @@ public class BeaconMenu extends Menu {
 
 	}
 
-
 	@Override
 	public ItemStack getItemAt(int slot) {
 		//getting the players cache
-		PlayerCache cache = PlayerCache.getCache(getViewer());
-		int tier;
-
-		if (cache.getBeaconFuel() != null && cache.getBeaconFuel().getFuel() != null) {
-			tier = BeaconFuel.getTier(cache.getBeaconFuel());
-		} else {
-			tier = 1;
-		}
-
-
 		if (slot == 7)
 			return clearButton.getItem();
 
-		//tier one
-		if (tier == 1) {
-			if (slot == 1)
-				return tierOne.getItem();
-		}
-		//tier two
-		if (tier == 2) {
-			if (slot == 1)
-				return tierOne.getItem();
-			if (slot == 2)
-				return tierTwo.getItem();
-		}
-
-		//tier three
-		if (tier == 3) {
-			if (slot == 1)
-				return tierOne.getItem();
-			if (slot == 2)
-				return tierTwo.getItem();
-			if (slot == 3)
-				return tierThree.getItem();
-		}
+		//tier menus
+		if (slot == 1)
+			return tierOne.getItem();
+		if (slot == 2)
+			return tierTwo.getItem();
+		if (slot == 3)
+			return tierThree.getItem();
 
 		//centerpiece
 		if (slot == getCenterSlot())
@@ -140,6 +116,13 @@ public class BeaconMenu extends Menu {
 	}
 
 
+	//-----------------------------------//----------------------------------------------------------------------//-----------------------------------//
+	//                                 									Tiered Menu
+	//-----------------------------------//----------------------------------------------------------------------//-----------------------------------//
+
+
+	//The BeaconTierMenu allows the player to click on an effect assuming the have the right fuel type,
+	// and setting their effect respectively
 	private class BeaconTierMenu extends MenuPagged<BeaconState> {
 
 		int tier;
@@ -164,8 +147,16 @@ public class BeaconMenu extends Menu {
 
 			PlayerCache cache = PlayerCache.getCache(player);
 
+			//is there fuel present in the cache?
 			if (cache.getBeaconFuel() == null || !cache.getBeaconFuel().isBurning()) {
 				animateTitle(ChatUtil.generateGradient("No Fuel Present", CompChatColor.RED, CompChatColor.DARK_RED));
+				new SimpleSound(Sound.BLOCK_CALCITE_BREAK, 5, MathUtil.range(2, 0, 1)).play(player);
+				return;
+			}
+
+			//is the fuel the right tier?
+			if (BeaconFuel.getTier(cache.getBeaconFuel()) < state.getTier()) {
+				animateTitle(ChatUtil.generateGradient("Need better fuel", CompChatColor.RED, CompChatColor.DARK_RED));
 				new SimpleSound(Sound.BLOCK_CALCITE_BREAK, 5, MathUtil.range(2, 0, 1)).play(player);
 				return;
 			}
@@ -179,12 +170,12 @@ public class BeaconMenu extends Menu {
 				return;
 			}
 
-			PocketBeacons.updateEffect(player, state);
+			BeaconUtil.updateEffect(player, state);
 
 			new SimpleSound(Sound.BLOCK_CHAIN_BREAK, 5, MathUtil.range(7, 3, 7)).play(player);
 			new SimpleSound(Sound.BLOCK_END_PORTAL_FRAME_FILL, 5, MathUtil.range(2, 0, 1)).play(player);
 		}
-		
+
 		@Override
 		protected String[] getInfo() {
 			return new String[]{
@@ -194,9 +185,16 @@ public class BeaconMenu extends Menu {
 	}
 
 
+	//-----------------------------------//----------------------------------------------------------------------//-----------------------------------//
+	//                                 									FUEL MENU
+	//-----------------------------------//----------------------------------------------------------------------//-----------------------------------//
+
+
 	private final class FuelMenu extends Menu {
+
+
 		FuelMenu() {
-			super(BeaconMenu.this, true);
+			super(BeaconMenu.this);
 			setTitle(ChatUtil.generateGradient("Pocket Beacon Fuel", CompChatColor.AQUA, CompChatColor.DARK_BLUE));
 			setSize(9);
 		}
@@ -233,7 +231,7 @@ public class BeaconMenu extends Menu {
 
 		@Override
 		protected boolean isActionAllowed(MenuClickLocation location, int slot, ItemStack clicked, ItemStack cursor) {
-
+			//allows the player to click on the center slot and or fuel in there inventory
 			if (location.equals(MenuClickLocation.MENU)) {
 				return slot == getCenterSlot();
 			}
@@ -241,19 +239,31 @@ public class BeaconMenu extends Menu {
 			return location == MenuClickLocation.PLAYER_INVENTORY && (clicked == null || BeaconFuel.isFuel(clicked));
 		}
 
+		@Override
+		protected void onMenuClick(Player player, int slot, InventoryAction action, ClickType click, ItemStack cursor, ItemStack clicked, boolean cancelled) {
 
+			//need to stop runnable when clicked on center slot since the player may be removing fuel
+			if (slot == getCenterSlot() && BeaconFuel.isFuel(clicked)) {
+				BeaconTaskManager.getInstance().stop(player);
+			}
+
+		}
+
+		//todo save and resume fuel tick time
 		@Override
 		protected void onMenuClose(Player player, Inventory inventory) {
 			super.onMenuClose(player, inventory);
 			PlayerCache cache = PlayerCache.getCache(player);
 
+
+			//is the fuel empty? if so set the players fuel to null
 			if (inventory.getItem(getCenterSlot()) == null) {
 				if (cache.getBeaconFuel() != null) {
 					cache.setBeaconFuel(null);
 				}
 			}
 
-
+			//fuel is not null? begin the runnable that ticks the fuel.
 			if (inventory.getItem(getCenterSlot()) != null) {
 
 				cache.setBeaconFuel(new BeaconFuel(inventory.getItem(getCenterSlot())));
@@ -263,8 +273,11 @@ public class BeaconMenu extends Menu {
 
 
 					BeaconTaskManager.getInstance().start(player, new BukkitRunnable() {
-						final BeaconFuel currentFuel = PlayerCache.getCache(player).getBeaconFuel();
-						final int burnTime = BeaconFuel.getBurnTime(currentFuel);
+						final BeaconFuel currentFuel = cache.getBeaconFuel();
+
+						//runnable runs every 5 ticks which is 1/4 of a second
+						//So I am multiplying by a correction factor of 1.2
+						final int burnTime = (int) Math.round(BeaconFuel.getBurnTime(currentFuel) * 0.2);
 
 						int amountLeft = cache.getBeaconFuel().getFuel().getAmount();
 						int timer = 0;
@@ -272,7 +285,9 @@ public class BeaconMenu extends Menu {
 						@Override
 						public void run() {
 
-							if (cache.getCurrentState().equals(BeaconState.NO_EFFECT) || !PocketBeacons.isHolding(player)) {
+							Common.broadcast(timer + ": " + burnTime);
+
+							if (cache.getCurrentState().equals(BeaconState.NO_EFFECT) || !BeaconUtil.isHolding(player)) {
 								return;
 							}
 

@@ -7,13 +7,15 @@ import lombok.Setter;
 import org.bukkit.entity.Player;
 import org.mineacademy.fo.menu.model.ItemCreator;
 import org.mineacademy.fo.remain.CompMaterial;
-import org.mineacademy.fo.settings.YamlSectionConfig;
+import org.mineacademy.fo.settings.YamlConfig;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class PlayerCache extends YamlSectionConfig {
+import static org.mineacademy.fo.jsonsimple.JsonSimpleUtil.getEnum;
+
+public class PlayerCache extends YamlConfig {
 
 	@Getter
 	@Setter
@@ -25,18 +27,19 @@ public class PlayerCache extends YamlSectionConfig {
 
 
 	protected PlayerCache(final String uuid) {
-		super(uuid);
+
 		loadConfiguration(null, "data.db");
 	}
 
-
 	@Override
-	protected void onLoadFinish() {
+	protected void onLoad() {
+		super.onLoad();
 		if (isSet("Beacon_Fuel"))
 			beaconFuel = BeaconFuel.deserialize(getMap("Beacon_Fuel"));
 
 		if (isSet("Effect_State"))
 			currentState = getEnum("Effect_State", BeaconState.class);
+
 	}
 
 	public void saveData() {
@@ -46,7 +49,7 @@ public class PlayerCache extends YamlSectionConfig {
 			save("Beacon_Fuel", beaconFuel.serialize());
 			save("Effect_State", currentState);
 		} else {
-			save("Beacon_Fuel", ItemCreator.of(CompMaterial.AIR).build().make());
+			save("Beacon_Fuel", ItemCreator.of(CompMaterial.AIR).make());
 			save("Effect_State", BeaconState.NO_EFFECT);
 
 		}

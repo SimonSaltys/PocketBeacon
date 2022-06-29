@@ -27,8 +27,8 @@ public class BeaconUtil {
 	}
 
 	public static ItemStack getBeaconItem() {
-		return ItemCreator.builder().material(CompMaterial.BEACON).name("&fPocket Beacon").glow(true).lore(
-				"Right/Left Click to Open").build().make();
+		return ItemCreator.of(CompMaterial.BEACON).name("&fPocket Beacon").glow(true).lore(
+				"Right/Left Click to Open").make();
 	}
 
 	public static ShapedRecipe getRecipe() {
@@ -103,7 +103,7 @@ public class BeaconUtil {
 
 
 	private ItemStack makeGlass(Material material) {
-		return ItemCreator.of(CompMaterial.fromMaterial(material), "").build().make();
+		return ItemCreator.of(CompMaterial.fromMaterial(material), "").make();
 	}
 
 

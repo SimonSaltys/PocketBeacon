@@ -92,7 +92,7 @@ public class BeaconMenu extends Menu {
 
 		//centerpiece
 		if (slot == getCenterSlot())
-			return ItemCreator.of(CompMaterial.BEACON, "&fPocket Beacon").glow(true).build().make();
+			return ItemCreator.of(CompMaterial.BEACON, "&fPocket Beacon").glow(true).make();
 
 		//fuel menu
 		if (slot == 8)
@@ -229,7 +229,7 @@ public class BeaconMenu extends Menu {
 		}
 
 
-		@Override
+
 		protected boolean isActionAllowed(MenuClickLocation location, int slot, ItemStack clicked, ItemStack cursor) {
 			//allows the player to click on the center slot and or fuel in there inventory
 			if (location.equals(MenuClickLocation.MENU)) {
@@ -268,7 +268,7 @@ public class BeaconMenu extends Menu {
 
 				cache.setBeaconFuel(new BeaconFuel(inventory.getItem(getCenterSlot())));
 
-				if (!cache.getBeaconFuel().isBurning() && !cache.getBeaconFuel().isEmpty()) {
+				if (!cache.getBeaconFuel().isBurning() && !cache.getBeaconFuel().empty()) {
 					cache.getBeaconFuel().setBurning(true);
 
 
@@ -318,7 +318,7 @@ public class BeaconMenu extends Menu {
 							}
 
 							//stops the fuel ticking when the fuel is empty
-							if (currentFuel.isEmpty() || (cache.getBeaconFuel() != null && !cache.getBeaconFuel().isBurning())) {
+							if (currentFuel.empty() || (cache.getBeaconFuel() != null && !cache.getBeaconFuel().isBurning())) {
 								setItem(getCenterSlot(), null);
 								new SimpleSound(Sound.BLOCK_BEACON_DEACTIVATE, 10, 1).play(player);
 								BeaconTaskManager.getInstance().stop(player);

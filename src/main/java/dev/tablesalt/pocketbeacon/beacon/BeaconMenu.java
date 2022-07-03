@@ -10,6 +10,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.Nullable;
 import org.mineacademy.fo.ChatUtil;
 import org.mineacademy.fo.Common;
 import org.mineacademy.fo.MathUtil;
@@ -229,6 +230,10 @@ public class BeaconMenu extends Menu {
 		}
 
 
+		@Override
+		protected boolean isActionAllowed(MenuClickLocation location, int slot, @Nullable ItemStack clicked, @Nullable ItemStack cursor, InventoryAction action) {
+			return this.isActionAllowed(location,slot,clicked,cursor);
+		}
 
 		protected boolean isActionAllowed(MenuClickLocation location, int slot, ItemStack clicked, ItemStack cursor) {
 			//allows the player to click on the center slot and or fuel in there inventory
@@ -284,9 +289,9 @@ public class BeaconMenu extends Menu {
 
 						@Override
 						public void run() {
-
-							Common.broadcast(timer + ": " + burnTime);
-
+							if(cache.getCurrentState() == null){
+							return;
+							}
 							if (cache.getCurrentState().equals(BeaconState.NO_EFFECT) || !BeaconUtil.isHolding(player)) {
 								return;
 							}

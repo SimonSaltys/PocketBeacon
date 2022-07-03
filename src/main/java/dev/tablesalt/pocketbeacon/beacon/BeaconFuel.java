@@ -24,8 +24,6 @@ public class BeaconFuel extends YamlConfig implements ConfigSerializable {
 	}
 
 
-
-
 	public boolean empty() {
 		return fuel.getAmount() < 1 || fuel.getType().equals(Material.AIR);
 	}
@@ -152,7 +150,10 @@ public class BeaconFuel extends YamlConfig implements ConfigSerializable {
 	}
 
 	public static BeaconFuel deserialize(SerializedMap map) {
-		return new BeaconFuel(map.getItemStack("Fuel"));
+		try {
+			return new BeaconFuel(map.getItemStack("Fuel"));
+		} catch (Exception exception){}
+		return new BeaconFuel(new ItemStack(Material.AIR));
 	}
 
 

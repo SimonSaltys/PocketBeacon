@@ -43,7 +43,7 @@ public class BeaconListener implements Listener {
 
 		if (!player.getDiscoveredRecipes().contains(BeaconUtil.getKey())) {
 			player.discoverRecipe(BeaconUtil.getKey());
-			Common.tell(player, "&1[&bPocket Beacon&1]&r &bPssssst &9You Unlocked the pocket beacon recipe.");
+			Common.tell(player, "&bPssssst &9You Unlocked the pocket beacon recipe.");
 		}
 
 

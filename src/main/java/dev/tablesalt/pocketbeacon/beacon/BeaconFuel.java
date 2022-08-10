@@ -45,15 +45,16 @@ public class BeaconFuel extends YamlConfig implements ConfigSerializable {
 
 	public static int getTier(BeaconFuel fuel) {
 
-		switch (getBaseMaterial(fuel.getFuel())) {
-			case COAL:
-				return 1;
-			case DIAMOND:
-			case EMERALD:
-				return 3;
-			case IRON_INGOT:
-			case GOLD_INGOT:
-				return 2;
+		if(fuel != null)
+			switch (getBaseMaterial(fuel.getFuel())) {
+				case COAL:
+					return 1;
+				case DIAMOND:
+				case EMERALD:
+					return 3;
+				case IRON_INGOT:
+				case GOLD_INGOT:
+					return 2;
 		}
 
 		return 0;
@@ -61,59 +62,33 @@ public class BeaconFuel extends YamlConfig implements ConfigSerializable {
 
 	public static boolean isFuel(ItemStack itemStack) {
 
-		switch (getBaseMaterial(itemStack)) {
-			case COAL:
-			case DIAMOND:
-			case EMERALD:
-			case IRON_INGOT:
-			case GOLD_INGOT:
-				return true;
-			default:
-				return false;
-		}
+		return switch (getBaseMaterial(itemStack)) {
+			case COAL, DIAMOND, EMERALD, IRON_INGOT, GOLD_INGOT -> true;
+			default -> false;
+		};
 	}
 
 	public static int getEffectMultiplier(BeaconFuel fuel) {
 
-		switch (getBaseMaterial(fuel.getFuel())) {
-			case COAL:
-				return Settings.FuelTypes.COALMULTIPLIER;
-			case IRON_INGOT:
-				return Settings.FuelTypes.IRONMULTIPLIER;
-			case GOLD_INGOT:
-				return Settings.FuelTypes.GOLDMULTIPLIER;
-			case DIAMOND:
-				return Settings.FuelTypes.DIAMONDMULTIPLIER;
-			case EMERALD:
-				return Settings.FuelTypes.EMERALDMULTIPLIER;
-
-			default:
-				return 0;
-		}
+		return switch (getBaseMaterial(fuel.getFuel())) {
+			case COAL -> Settings.FuelTypes.COALMULTIPLIER;
+			case IRON_INGOT -> Settings.FuelTypes.IRONMULTIPLIER;
+			case GOLD_INGOT -> Settings.FuelTypes.GOLDMULTIPLIER;
+			case DIAMOND -> Settings.FuelTypes.DIAMONDMULTIPLIER;
+			case EMERALD -> Settings.FuelTypes.EMERALDMULTIPLIER;
+			default -> 0;
+		};
 	}
 
 	public static int getBurnTime(BeaconFuel fuel) {
-		int burnTime = 0;
-
-		switch (getBaseMaterial(fuel.getFuel())) {
-			case COAL:
-				burnTime = Settings.FuelTypes.COALBURN.getTimeTicks();
-				break;
-			case IRON_INGOT:
-				burnTime = Settings.FuelTypes.IRONBURN.getTimeTicks();
-				break;
-			case GOLD_INGOT:
-				burnTime = Settings.FuelTypes.GOLDBURN.getTimeTicks();
-				break;
-			case DIAMOND:
-				burnTime = Settings.FuelTypes.DIAMONDBURN.getTimeTicks();
-				break;
-			case EMERALD:
-				burnTime = Settings.FuelTypes.EMERALDBURN.getTimeTicks();
-				break;
-			default:
-				burnTime = 20;
-		}
+		int burnTime = switch (getBaseMaterial(fuel.getFuel())) {
+			case COAL -> Settings.FuelTypes.COALBURN.getTimeTicks();
+			case IRON_INGOT -> Settings.FuelTypes.IRONBURN.getTimeTicks();
+			case GOLD_INGOT -> Settings.FuelTypes.GOLDBURN.getTimeTicks();
+			case DIAMOND -> Settings.FuelTypes.DIAMONDBURN.getTimeTicks();
+			case EMERALD -> Settings.FuelTypes.EMERALDBURN.getTimeTicks();
+			default -> 20;
+		};
 
 		if (fuel.getFuel().getType().isBlock() && isFuel(fuel.getFuel())) {
 			burnTime *= Settings.FuelTypes.BLOCK_BURN_MULTIPLIER;
@@ -152,7 +127,7 @@ public class BeaconFuel extends YamlConfig implements ConfigSerializable {
 	public static BeaconFuel deserialize(SerializedMap map) {
 		try {
 			return new BeaconFuel(map.getItemStack("Fuel"));
-		} catch (Exception exception){}
+		} catch (Exception ignored){}
 		return new BeaconFuel(new ItemStack(Material.AIR));
 	}
 

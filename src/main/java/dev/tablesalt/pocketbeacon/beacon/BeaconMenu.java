@@ -41,7 +41,7 @@ public class BeaconMenu extends Menu {
 	public BeaconMenu() {
 
 		setSize(9);
-		setTitle(ChatUtil.generateGradient("Pocket Beacon", CompChatColor.AQUA, CompChatColor.DARK_BLUE));
+		setTitle("&bPocket Beacon");
 
 		clearButton = new Button() {
 			@Override

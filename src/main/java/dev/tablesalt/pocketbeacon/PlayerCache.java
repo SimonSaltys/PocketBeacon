@@ -7,15 +7,12 @@ import lombok.Setter;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.mineacademy.fo.menu.model.ItemCreator;
-import org.mineacademy.fo.remain.CompMaterial;
 import org.mineacademy.fo.settings.YamlConfig;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import static org.mineacademy.fo.jsonsimple.JsonSimpleUtil.getEnum;
 
 public class PlayerCache extends YamlConfig {
 
@@ -26,7 +23,7 @@ public class PlayerCache extends YamlConfig {
 	@Getter
 	@Setter
 	private BeaconFuel beaconFuel;
-	private UUID uuid;
+	private final UUID uuid;
 
 	protected PlayerCache(final String uuid) {
 		this.uuid = UUID.fromString(uuid);
@@ -36,11 +33,11 @@ public class PlayerCache extends YamlConfig {
 	@Override
 	protected void onLoad() {
 		super.onLoad();
-		if (isSet(uuid.toString()+"Beacon_Fuel"))
-			beaconFuel = BeaconFuel.deserialize(getMap(uuid.toString()+"Beacon_Fuel"));
+		if (isSet(uuid + "Beacon_Fuel"))
+			beaconFuel = BeaconFuel.deserialize(getMap(uuid + "Beacon_Fuel"));
 
-		if (isSet(uuid.toString()+"Effect_State"))
-			currentState = getEnum(uuid.toString()+"Effect_State", BeaconState.class); else
+		if (isSet(uuid +"Effect_State"))
+			currentState = get(uuid +"Effect_State", BeaconState.class); else
 				currentState = BeaconState.NO_EFFECT;
 
 	}
@@ -49,11 +46,11 @@ public class PlayerCache extends YamlConfig {
 
 
 		if (beaconFuel != null) {
-			save(uuid.toString()+"Beacon_Fuel", beaconFuel.saveToMap());
-			save(uuid.toString()+"Effect_State", currentState);
+			save(uuid + "Beacon_Fuel", beaconFuel.saveToMap());
+			save(uuid + "Effect_State", currentState);
 		} else {
-			save(uuid.toString()+"Beacon_Fuel",  new BeaconFuel(new ItemStack(Material.AIR)).saveToMap());
-			save(uuid.toString()+"Effect_State", BeaconState.NO_EFFECT);
+			save(uuid + "Beacon_Fuel",  new BeaconFuel(new ItemStack(Material.AIR)).saveToMap());
+			save(uuid + "Effect_State", BeaconState.NO_EFFECT);
 
 		}
 
@@ -63,7 +60,7 @@ public class PlayerCache extends YamlConfig {
 	//-----------------------------------//-----------------------------------//
 
 	@Getter
-	private static Map<UUID, PlayerCache> cacheMap = new HashMap<>();
+	private static final Map<UUID, PlayerCache> cacheMap = new HashMap<>();
 
 	public static PlayerCache getCache(Player player) {
 		PlayerCache cache = cacheMap.get(player.getUniqueId());

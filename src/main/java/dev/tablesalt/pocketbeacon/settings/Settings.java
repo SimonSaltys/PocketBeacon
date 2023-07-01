@@ -3,11 +3,14 @@ package dev.tablesalt.pocketbeacon.settings;
 import org.mineacademy.fo.model.SimpleTime;
 import org.mineacademy.fo.settings.SimpleSettings;
 
+import java.util.List;
+import java.util.Map;
+
 public class Settings extends SimpleSettings {
 
 	@Override
 	protected int getConfigVersion() {
-		return 2;
+		return 3;
 	}
 
 
@@ -34,6 +37,25 @@ public class Settings extends SimpleSettings {
 			DIAMONDBURN = getTime("Fuel_Types.Diamond.Burn_Time");
 		}
 	}
+
+	public static class Recipe {
+
+		public static List<String> SHAPE = getStringList("Recipe.Shape");
+		public static Map<String, String> INGREDIENTS;
+
+		private static void init() {
+			INGREDIENTS = getMap("Recipe.Ingredients", String.class, String.class);
+			for (String key : INGREDIENTS.keySet()) {
+				if (key.length() != 1) {
+					throw new IllegalArgumentException("Recipe.Ingredient keys should be single characters, matching those found in Recipe.Shape");
+				}
+			}
+		}
+	}
+
+//	public static class Recipe {
+//		public static String RECIPE = getString("Recipe");
+//	}
 
 
 }

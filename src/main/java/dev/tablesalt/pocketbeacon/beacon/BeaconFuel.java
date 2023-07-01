@@ -6,10 +6,9 @@ import lombok.Setter;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.mineacademy.fo.collection.SerializedMap;
-import org.mineacademy.fo.model.ConfigSerializable;
 import org.mineacademy.fo.settings.YamlConfig;
 
-public class BeaconFuel extends YamlConfig implements ConfigSerializable {
+public class BeaconFuel extends YamlConfig{
 
 	@Getter
 	@Setter

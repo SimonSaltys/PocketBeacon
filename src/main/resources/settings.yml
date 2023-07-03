@@ -35,6 +35,36 @@ Fuel_Types:
     Burn_Time: 10 seconds
     Multiplier: 4
 
+#--------------------------------------------------------------------------------------------------
+# The crafting recipe for the pocket beacon can be set here, in a similar manner to how
+# ShapedRecipe is specified. Shape should consist of three strings filling out the crafting grid.
+# Empty spaces in Shape can be used to leave blank spaces in the grid. Ingredients is used to map
+# the letters in Shape to minecraft items. The item names MUST match the names found in
+# org.Bukkit.Material This setting does not play nicely with  /reload (the new recipe will be loaded,
+# but some config values will be erroneously moved into ./unused/settings.yml
+#--------------------------------------------------------------------------------------------------
+Recipe:
+  Shape:
+    - 'DSD'
+    - 'NBN'
+    - 'DSD'
+  Ingredients:
+    B: 'BEACON'
+    N: 'NETHERITE_INGOT'
+    D: 'DIAMOND_BLOCK'
+    S: 'SHULKER_SHELL'
+
+# Easier to craft alternate recipe
+#Recipe:
+#  Shape:
+#    - 'GGG'
+#    - 'GBG'
+#    - 'OOO'
+#  Ingredients:
+#    G: 'GLASS'
+#    B: 'BEACON'
+#    O: 'OBSIDIAN'
+
 # -------------------------------------------------------------------------------------------------
 # The prefix used in front of most chat or console messages. You can manually use it with
 # {plugin_prefix} variable anywhere.
@@ -58,4 +88,4 @@ Debug: [ ]
 # Do not change this value, otherwise it will corrupt your plugin installation!
 # NB: Don't forget to keep this up-to-date with the getConfigVersion method in your Settings class. 
 # -------------------------------------------------------------------------------------------------
-Version: 2
+Version: 3

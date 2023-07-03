@@ -3,6 +3,7 @@ package dev.tablesalt.pocketbeacon.beacon;
 import com.bekvon.bukkit.residence.commands.material;
 import dev.tablesalt.pocketbeacon.BeaconPlugin;
 import dev.tablesalt.pocketbeacon.PlayerCache;
+import dev.tablesalt.pocketbeacon.settings.Settings;
 import lombok.Getter;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Material;
@@ -15,6 +16,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.mineacademy.fo.menu.model.ItemCreator;
 import org.mineacademy.fo.remain.CompMaterial;
 
+import java.util.Map;
 import java.util.Random;
 
 @UtilityClass
@@ -37,11 +39,14 @@ public class BeaconUtil {
 
 		ShapedRecipe recipe = new ShapedRecipe(key, getBeaconItem());
 
-		recipe.shape("DSD", "NBN", "DSD");
-		recipe.setIngredient('B', Material.BEACON);
-		recipe.setIngredient('N', Material.NETHERITE_INGOT);
-		recipe.setIngredient('D', Material.DIAMOND_BLOCK);
-		recipe.setIngredient('S', Material.SHULKER_SHELL);
+		recipe.shape(Settings.Recipe.SHAPE.get(0), Settings.Recipe.SHAPE.get(1), Settings.Recipe.SHAPE.get(2));
+		for (Map.Entry<String, String> entry : Settings.Recipe.INGREDIENTS.entrySet()) {
+			Material mat = Material.getMaterial(entry.getValue());
+			if (mat == null) {
+				throw new IllegalArgumentException(entry.getValue() + "Is not a valid material name!");
+			}
+			recipe.setIngredient(entry.getKey().charAt(0), mat);
+		}
 
 		return recipe;
 	}

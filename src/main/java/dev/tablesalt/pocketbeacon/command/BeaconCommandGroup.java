@@ -25,6 +25,6 @@ public final class BeaconCommandGroup extends SimpleCommandGroup {
 
 	@Override
 	protected String getCredits() {
-		return "Visit the (wiki site) for more info.";
+		return "Visit https://www.spigotmc.org/resources/pocket-beacon.98852/ for more info.";
 	}
 }

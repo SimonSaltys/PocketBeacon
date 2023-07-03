@@ -196,7 +196,7 @@ public class BeaconMenu extends Menu {
 
 		FuelMenu() {
 			super(BeaconMenu.this);
-			setTitle(ChatUtil.generateGradient("Pocket Beacon Fuel", CompChatColor.AQUA, CompChatColor.DARK_BLUE));
+			setTitle("&bPocket Beacon Fuel");
 			setSize(9);
 		}
 
@@ -254,7 +254,6 @@ public class BeaconMenu extends Menu {
 
 		}
 
-		//todo save and resume fuel tick time
 		@Override
 		protected void onMenuClose(Player player, Inventory inventory) {
 			super.onMenuClose(player, inventory);
